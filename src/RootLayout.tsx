@@ -4,7 +4,7 @@ import { ModeToggle } from './components/mode-toggle'
 function RootLayout() {
   return (
     <ThemeProvider>
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex h-screen bg-light text-dark transition transition-colors">
         {/* sidebar component */}
         <div className="border-2 border-red-500">sidebar</div>
         <div className="flex flex-col flex-1">
