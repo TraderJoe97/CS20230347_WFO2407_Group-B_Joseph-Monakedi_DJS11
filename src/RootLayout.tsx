@@ -1,4 +1,5 @@
 import { ThemeProvider } from './components/theme-provider'
+import { ModeToggle } from './components/mode-toggle'
 
 function RootLayout() {
   return (
@@ -12,7 +13,7 @@ function RootLayout() {
             {/* Searchbar component */}
             <div className="border-2 border-red-500">Search bar</div>
             {/* ThemeToggle component */}
-            <div className="border-2 border-red-500">themetoggle</div>
+            <div className="border-2 border-red-500"><ModeToggle /></div>
           </div>
           {/* content component */}
           <div className="border-2 border-red-500 flex-1 overflow-auto p-6">main content</div>
