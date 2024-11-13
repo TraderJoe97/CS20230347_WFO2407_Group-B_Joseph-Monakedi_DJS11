@@ -1,5 +1,6 @@
 import { ThemeProvider } from './components/theme-provider'
 import { ModeToggle } from './components/mode-toggle'
+import PreviewWindow from './components/preview-window'
 
 function RootLayout() {
   return (
@@ -16,7 +17,7 @@ function RootLayout() {
             <div className="border-2 border-red-500"><ModeToggle /></div>
           </div>
           {/* content component */}
-          <div className="border-2 border-red-500 flex-1 overflow-auto p-6">main content</div>
+          <div className="border-2 border-red-500 flex-1 overflow-auto p-6"><PreviewWindow/></div>
           {/* Audio player compnent */}
           <div className="border-2 border-red-500">audioplayer</div>
       </div>
