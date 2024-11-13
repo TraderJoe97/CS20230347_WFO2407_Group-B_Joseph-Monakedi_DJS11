@@ -15,7 +15,7 @@ export default function PodcastPreviewList() {
     useEffect(() => {
         fetch("https://podcast-api.netlify.app/")
             .then((res) => res.json())
-            .then((data) => setPodcasts(data));
+            .then((data) => setPodcasts(data.sort((a: PodcastPreview, b: PodcastPreview) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))));
     }, []);
     return (
         <div>
