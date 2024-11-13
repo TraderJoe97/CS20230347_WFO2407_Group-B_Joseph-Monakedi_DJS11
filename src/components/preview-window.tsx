@@ -31,7 +31,7 @@ export default function PodcastPreviewList() {
                         aspectRatio: "1/1",}
                     }>  
                         <button className="h-full">
-                        <CardContent className="relative top-0 inset-0 flex flex-col place-content-between h-full bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-70 opacity-0 transition-opacity duration-500 hover:opacity-100">
+                        <CardContent className="relative top-0 inset-0 flex flex-col place-content-between h-full bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85 opacity-0 transition-opacity duration-500 hover:opacity-100">
                             <CardHeader className="h-4/5">
                                 <CardTitle>{podcast.title}</CardTitle>
                                 <CardDescription className="text-current overflow-y-auto">{podcast.description}</CardDescription>
