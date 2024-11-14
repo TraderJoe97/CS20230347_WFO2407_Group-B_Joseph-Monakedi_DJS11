@@ -8,9 +8,22 @@ interface PodcastPreview {
   description: string
   seasons: number
   image: string
-  genreIds: number[]
+  genres: number[]
   updated: string
 }
+
+const genres: { [key:string]: string} = {
+    "1": "Personal Growth",
+    "2": "Investigative Journalism",
+    "3": "History",
+    "4": "Comedy",
+    "5": "Entertainment",
+    "6": "Business",
+    "7": "Fiction",
+    "8": "News",
+    "9": "Kids and Family",
+}
+
 export default function PodcastPreviewList() {
     const [podcasts, setPodcasts] = useState<PodcastPreview[]>([]);
     useEffect(() => {
@@ -39,8 +52,10 @@ export default function PodcastPreviewList() {
                                     <ScrollArea className="h-full px-2">{podcast.description}<ScrollBar/></ScrollArea>
                                 </CardDescription>
                             </CardHeader>  
-                            <CardFooter>
-                                <p>Seasons: {podcast.seasons}</p>
+                            <CardFooter className="flex flex-col content-start text-left text-sm">
+                                <p className="w-full flex text-left">Updated: {new Date(podcast.updated).toLocaleString("en-ZA", { month: "long", day: "numeric", year: "numeric" })}</p>
+                                <p className="w-full flex text-left">Seasons: {podcast.seasons}</p>
+                                <p className="w-full flex text-left">Genres: {podcast.genres.map((id) => genres[id]).join(", ")}</p>
                             </CardFooter>
                         </CardContent>
                         </button>
