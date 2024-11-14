@@ -1,6 +1,7 @@
 import { useState, useEffect} from "react";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent  } from "./ui/card";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { Skeleton } from "./ui/skeleton";
 
 interface PodcastPreview {
   id: number
@@ -24,18 +25,57 @@ const genres: { [key:string]: string} = {
     "9": "Kids and Family",
 }
 
+function skeletonCard(key: number) {
+    return (
+        <div key={key} className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <Card 
+            className="w-full"
+            style={{
+                aspectRatio: "1/1",
+                minWidth: "20rem",
+            }}
+            >
+                <CardContent className="w-full">
+                    <CardHeader className="h-4/5 w-full">
+                        <CardTitle className="w-full">
+                            <Skeleton className="h-6 w-full rounded"/>
+                        </CardTitle>
+                        <CardDescription className="w-full">
+                            <Skeleton className="h-6 w-full"/>
+                            <Skeleton className="h-6 w-1/2"/>
+                            <Skeleton className="h-6 w-1/2"/>
+                        </CardDescription>
+                    </CardHeader>
+                    <CardFooter className="w-full">
+                        <Skeleton className="h-6 w-1/2"/>        
+                    </CardFooter>
+                </CardContent>
+            </Card>
+        </div>
+        );
+    }
+
 export default function PodcastPreviewList() {
     const [podcasts, setPodcasts] = useState<PodcastPreview[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         fetch("https://podcast-api.netlify.app/")
-            .then((res) => res.json())
-            .then((data) => setPodcasts(data.sort((a: PodcastPreview, b: PodcastPreview) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))));
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to fetch podcasts");
+                }
+                return res.json();
+            })
+            .then((data) => setPodcasts(data.sort((a: PodcastPreview, b: PodcastPreview) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))))
+            .finally(() => setIsLoading(false));
     }, []);
+
     return (
         <ScrollArea className="h-full px-5">
             <h1>Podcast Preview List</h1>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {podcasts.map((podcast) => (
+                { isLoading ? Array.from({length: 9}).map((_,index) => skeletonCard(index)) :
+                podcasts.map((podcast) => (
                     <Card 
                     key={podcast.id} 
                     style={
@@ -44,8 +84,8 @@ export default function PodcastPreviewList() {
                          
                         aspectRatio: "1/1",}
                     }>  
-                        <button className="h-full">
-                        <CardContent className="relative top-0 inset-0 flex flex-col place-content-between h-full bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85 opacity-0 transition-opacity duration-500 hover:opacity-100">
+                        <button className="h-full w-full">
+                        <CardContent className="relative w-full top-0 inset-0 flex flex-col place-content-between h-full bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85 opacity-0 transition-opacity duration-500 hover:opacity-100">
                             <CardHeader className="h-4/5">
                                 <CardTitle className="text-left">{podcast.title}</CardTitle>
                                 <CardDescription className="text-current text-left overflow-y-auto">
