@@ -34,7 +34,7 @@ export default function AudioPlayer() {
 
     return (
         <footer className=" w-full border-t p-4">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="flex items-center">
                     <Button size="icon" variant="ghost">
                         <SkipBack className="h-5 w-5" />
@@ -53,7 +53,6 @@ export default function AudioPlayer() {
                         <img src={currentEpisode?.image} alt="Podcast Image" className="w-10 h-10" />
                         <div className="ml-2">
                             <h3>{currentEpisode?.title}</h3>
-                            <p>{currentEpisode?.author}</p>
                         </div>
                     </div>
                 </div>
