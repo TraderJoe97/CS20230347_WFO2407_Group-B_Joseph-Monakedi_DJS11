@@ -11,6 +11,13 @@ interface PlayerState {
     currentTime: number
 }
 
+interface episode {
+    id: number;
+    title: string;
+    image: string;
+    file: string;
+}
+
 const initialState: PlayerState = {
     currentEpisode: null,
     isPlaying: false,
@@ -21,7 +28,7 @@ const playerSlice = createSlice({
     name: 'player',
     initialState,
     reducers: {
-        setCurrentEpisode: (state, action: PayloadAction<{ id: number; title: string; image: string; file: string }>) => {
+        setCurrentEpisode: (state, action: PayloadAction<episode>) => {
             state.currentEpisode = {
                 id: action.payload.id,
                 title: action.payload.title,
