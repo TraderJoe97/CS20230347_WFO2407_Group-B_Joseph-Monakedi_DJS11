@@ -114,10 +114,10 @@ export default function PodcastPreviewList() {
     }, []);
 
     return (
-        <ScrollArea className="h-full px2 md:px-3 lg:px-5">
+        <>
             <h1>Podcast Preview List</h1>
             {gridPreview({podcasts, isLoading})}
-            <ScrollBar orientation="vertical"/>
-        </ScrollArea>
+        </>
+
     );
 }

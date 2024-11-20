@@ -6,7 +6,7 @@ import { Play,Pause, SkipBack, SkipForward, Volume2 } from "lucide-react"
 
 export default function AudioPlayer() {
     return (
-        <footer className="absolute bottom-0 w-full border-t p-4">
+        <footer className=" w-full border-t p-4">
             <div className="flex justify-between items-center">
                 <div className="flex items-center">
                 <Button size="icon" variant="ghost">
