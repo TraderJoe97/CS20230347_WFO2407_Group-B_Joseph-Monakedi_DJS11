@@ -4,7 +4,6 @@ interface PlayerState {
     currentEpisode: {
         id: number
         title: string
-        image: string
         file: string
     } | null;
     isPlaying: boolean;
@@ -31,7 +30,6 @@ const playerSlice = createSlice({
             state.currentEpisode = {
                 id: action.payload.id,
                 title: action.payload.title,
-                image: action.payload.image,
                 file: action.payload.file,
             };
         },

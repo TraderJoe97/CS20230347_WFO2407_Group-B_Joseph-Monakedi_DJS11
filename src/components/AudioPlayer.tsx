@@ -49,8 +49,7 @@ export default function AudioPlayer() {
                     <Button size="icon" variant="ghost">
                         <Volume2 className="h-5 w-5" />
                     </Button>
-                    <div>
-                        <img src={currentEpisode?.image} alt="Podcast Image" className="w-10 h-10" />
+                    <div>                        
                         <div className="ml-2">
                             <h3>{currentEpisode?.title}</h3>
                         </div>
