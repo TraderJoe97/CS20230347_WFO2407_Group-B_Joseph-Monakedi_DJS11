@@ -23,14 +23,14 @@ interface Show {
 }
 
 export default function Episodes () {
-  const { id, seasonId } = useParams<{ id: string; seasonId: string }>();
+  const { seasonId } = useParams<{seasonId: string }>();
   const show = useOutletContext<Show>();
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (show && seasonId) {
-      const season = show.seasons.find(s => s.id === parseInt(seasonId));
+      const season = show.seasons.find(s => s.season === parseInt(seasonId));
       if (season) {
         setEpisodes(season.episodes);
       }
