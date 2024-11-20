@@ -13,8 +13,7 @@ interface PlayerState {
 
 interface episode {
     id: number;
-    title: string;
-    image: string;
+    title: string
     file: string;
 }
 

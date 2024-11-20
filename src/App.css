@@ -87,7 +87,7 @@ body {
 .transition-colors {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.39, 0.575, 0.565, 1);
-  transition-duration: 800ms;
+  transition-duration: 300ms;
 }
 
 @layer base {

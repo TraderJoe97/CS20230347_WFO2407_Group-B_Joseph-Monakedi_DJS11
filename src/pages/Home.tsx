@@ -66,7 +66,7 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
     return (
         <div className="grid grid-cols-1 gap-2 md:gap3 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
                 { isLoading ? Array.from({length: 9}).map((_,index) => skeletonCard(index)) :
-                podcasts.map((podcast) => (
+                podcasts.map((podcast: PodcastPreview) => (
                     <Card 
                     key={podcast.id} 
                     style={
@@ -76,7 +76,7 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
                         aspectRatio: "1/1",}
                     }>  
                         <Link 
-                            to={podcast.id.toString()}
+                            to={`show/${podcast.id}`}
                             className="h-full w-full">
                             <CardContent className="hidden md:flex w-full top-0 inset-0 flex-col place-content-between h-full bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85 opacity-0 transition-opacity duration-500 md:hover:opacity-100">
                                 <CardHeader className="h-4/5">

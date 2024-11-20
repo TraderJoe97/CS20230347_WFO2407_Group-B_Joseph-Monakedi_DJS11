@@ -5,6 +5,8 @@ import Home from './pages/Home'
 import PodcastDetails from './pages/PodcastDetails.tsx'
 import { Provider } from 'react-redux'
 import { store } from './store/store' 
+import Seasons from './pages/Seasons.tsx'
+import Episodes from './pages/Episodes.tsx'
 
 function RootLayout() {
   return (
@@ -14,7 +16,11 @@ function RootLayout() {
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
-              <Route path="/:id" element={<PodcastDetails />} />
+              <Route path="show/:id" element={<PodcastDetails />} >
+               <Route index element={<Seasons />} />
+               <Route path="season/:seasonId" element={<Episodes />} />
+
+              </Route>
             </Route>
           </Routes>
         </Router>
