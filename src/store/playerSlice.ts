@@ -32,6 +32,7 @@ const playerSlice = createSlice({
                 title: action.payload.title,
                 file: action.payload.file,
             };
+            state.isPlaying = true;
         },
         togglePlaying: (state) => {
             state.isPlaying = !state.isPlaying;

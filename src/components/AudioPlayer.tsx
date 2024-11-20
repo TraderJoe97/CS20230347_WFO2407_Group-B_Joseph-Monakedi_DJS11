@@ -40,7 +40,7 @@ export default function AudioPlayer() {
                         <SkipBack className="h-5 w-5" />
                     </Button>
                     <Button size="icon" variant="ghost" onClick={handlePlayPause}>
-                        {isPlaying ? <Play className="h-5 w-5" /> :
+                        {!isPlaying ? <Play className="h-5 w-5" /> :
                         <Pause className="h-5 w-5" />}
                     </Button>
                     <Button size="icon" variant="ghost">
