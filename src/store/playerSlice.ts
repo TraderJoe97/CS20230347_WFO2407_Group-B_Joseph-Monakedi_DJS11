@@ -40,8 +40,12 @@ const playerSlice = createSlice({
         setCurrentTime: (state, action: PayloadAction<number>) => {
             state.currentTime = action.payload;
         },
+        resetPlayer: (state) => {
+            state.currentEpisode = null;
+            state.isPlaying = false;
+            state.currentTime = 0;}
     },
 });
 
-export const { setCurrentEpisode, togglePlaying, setCurrentTime } = playerSlice.actions;
+export const { setCurrentEpisode, togglePlaying, setCurrentTime, resetPlayer } = playerSlice.actions;
 export default playerSlice.reducer;

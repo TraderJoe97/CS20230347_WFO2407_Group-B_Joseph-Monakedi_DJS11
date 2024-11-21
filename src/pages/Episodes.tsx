@@ -3,7 +3,7 @@ import { useParams, useOutletContext } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { setCurrentEpisode } from '../store/playerSlice';
+import { setCurrentEpisode, resetPlayer } from '../store/playerSlice';
 import { NavLink } from 'react-router-dom';
 
 interface Episode {
@@ -38,12 +38,18 @@ export default function Episodes () {
     }
   }, [show, seasonId]);
 
-  const handlePlay = (episode: Episode) => {
-    dispatch(setCurrentEpisode({
-      id: episode.episode,
-      title: episode.title,
-      file: episode.file,
-    }));
+  const handlePlay = async (episode: Episode) => {
+    try {
+      await dispatch(resetPlayer());
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      await dispatch(setCurrentEpisode({
+        id: episode.episode,
+        title: episode.title,
+        file: episode.file,
+      }));
+    } catch (error) {
+      console.error("Error handling play action:", error);
+    }
   };
 
   return (
