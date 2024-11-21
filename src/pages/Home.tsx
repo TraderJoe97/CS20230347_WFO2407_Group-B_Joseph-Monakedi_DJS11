@@ -1,6 +1,5 @@
 import { useState, useEffect} from "react";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent  } from "@/components/ui/card";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 
@@ -81,12 +80,7 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
                                 <CardHeader className="bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
                                     <CardTitle className="text-left line-clamp-1">{podcast.title}</CardTitle>
                                 </CardHeader>  
-                            <CardContent className="h-0 bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85 opacity-0 transition-opacity duration-500 md:hover:opacity-100">
-                                    {/* <CardDescription className="text-current text-left overflow-y-auto">
-                                        <ScrollArea className="h-full px-1 lg:px-2">{podcast.description}<ScrollBar/></ScrollArea>
-                                    </CardDescription> */}
-                            </CardContent>
-                                <CardFooter className="flex flex-col gap-0 bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
+                               <CardFooter className="flex flex-col gap-0 bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
                                     <p className="w-full flex text-left">Updated: {new Date(podcast.updated).toLocaleString("en-ZA", { month: "long", day: "numeric", year: "numeric" })}</p>
                                     <p className="w-full flex text-left">Seasons: {podcast.seasons}</p>
                                     <p className="w-full flex text-left line-clamp-1">Genres: {podcast.genres.map((id) => genres[id]).join(", ")}</p>
