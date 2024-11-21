@@ -38,9 +38,10 @@ function skeletonCard(key: number) {
             >
                 <CardContent className="w-full">
                     <CardHeader className="h-4/5 w-full">
-                        <CardTitle className="w-full">
+                        <CardTitle className="w-full line-clamp-2">
                             <Skeleton className="h-6 w-full rounded"/>
                         </CardTitle>
+                    </CardHeader>
                         <CardDescription className="w-full flex flex-col">
                             <Skeleton className="h-6 w-full"/>
                             <Skeleton className="h-6 m-1 w-1/2"/>
@@ -49,7 +50,6 @@ function skeletonCard(key: number) {
                             <Skeleton className="h-6  m-1 -full"/>
                             <Skeleton className="h-6 m-1 w-1/2"/>
                         </CardDescription>
-                    </CardHeader>
                     <CardFooter className="w-full">
                         <Skeleton className="h-6 w-1/2"/> 
                         <Skeleton className=" flex flex-col h-6 w-1/2"/> 
@@ -67,7 +67,7 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
         <div className="grid grid-cols-1 gap-2 md:gap3 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
                 { isLoading ? Array.from({length: 9}).map((_,index) => skeletonCard(index)) :
                 podcasts.map((podcast: PodcastPreview) => (
-                    <Card 
+                    <Card className="h-full"
                     key={podcast.id} 
                     style={
                         {backgroundImage: `url(${podcast.image})`,
@@ -77,20 +77,20 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
                     }>  
                         <Link 
                             to={`show/${podcast.id}`}
-                            className="h-full w-full">
-                            <CardContent className="hidden md:flex w-full top-0 inset-0 flex-col place-content-between h-full bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85 opacity-0 transition-opacity duration-500 md:hover:opacity-100">
-                                <CardHeader className="h-4/5">
-                                    <CardTitle className="text-left">{podcast.title}</CardTitle>
-                                    <CardDescription className="text-current text-left overflow-y-auto">
-                                        <ScrollArea className="h-full px-1 lg:px-2">{podcast.description}<ScrollBar/></ScrollArea>
-                                    </CardDescription>
+                            className="h-full w-full flex flex-col justify-between">
+                                <CardHeader className="bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
+                                    <CardTitle className="text-left line-clamp-1">{podcast.title}</CardTitle>
                                 </CardHeader>  
-                                <CardFooter className="flex flex-col content-start text-left text-sm">
+                            <CardContent className="h-0 bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85 opacity-0 transition-opacity duration-500 md:hover:opacity-100">
+                                    {/* <CardDescription className="text-current text-left overflow-y-auto">
+                                        <ScrollArea className="h-full px-1 lg:px-2">{podcast.description}<ScrollBar/></ScrollArea>
+                                    </CardDescription> */}
+                            </CardContent>
+                                <CardFooter className="flex flex-col gap-0 bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
                                     <p className="w-full flex text-left">Updated: {new Date(podcast.updated).toLocaleString("en-ZA", { month: "long", day: "numeric", year: "numeric" })}</p>
                                     <p className="w-full flex text-left">Seasons: {podcast.seasons}</p>
-                                    <p className="w-full flex text-left">Genres: {podcast.genres.map((id) => genres[id]).join(", ")}</p>
+                                    <p className="w-full flex text-left line-clamp-1">Genres: {podcast.genres.map((id) => genres[id]).join(", ")}</p>
                                 </CardFooter>
-                            </CardContent>
                         </Link>
                     </Card>
                 ))}
