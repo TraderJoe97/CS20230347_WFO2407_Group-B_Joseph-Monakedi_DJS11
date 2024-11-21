@@ -6,6 +6,7 @@ import { useRef, useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "@/store/store"
 import { togglePlaying, setCurrentTime } from "@/store/playerSlice"
+import { formatTime } from "@/lib/helperFunctions"
 
 export default function AudioPlayer() {
     const {currentEpisode, isPlaying, currentTime} = useSelector((state: RootState) => state.player)
@@ -34,7 +35,21 @@ export default function AudioPlayer() {
 
     return (
         <footer className=" w-full border-t p-4">
-            <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex flex-col justify-between items-center">
+                <div className="flex justify-between items-center w-full">
+                    <h3>{currentEpisode?.title}</h3>
+                    { audioRef.current ? 
+                        <p>{formatTime(audioRef.current?.currentTime)}/{formatTime(audioRef.current?.duration ? audioRef.current.duration : 0)}</p> : 
+                        <p></p>}
+                </div>
+                <div className="flex-1 w-full mx-5">
+                    <Slider 
+                        value={[currentTime]} 
+                        max={audioRef.current ? audioRef.current.duration : 0} 
+                        onValueChange={(value) => dispatch(setCurrentTime(value[0]))} 
+                        step={1}
+                    />
+                </div>
                 <div className="flex items-center">
                     <Button size="icon" variant="ghost">
                         <SkipBack className="h-5 w-5" />
@@ -49,19 +64,6 @@ export default function AudioPlayer() {
                     <Button size="icon" variant="ghost">
                         <Volume2 className="h-5 w-5" />
                     </Button>
-                    <div>                        
-                        <div className="ml-2">
-                            <h3>{currentEpisode?.title}</h3>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex-1 mx-5">
-                    <Slider 
-                        value={[currentTime]} 
-                        max={audioRef.current ? audioRef.current.duration : 0} 
-                        onValueChange={(value) => dispatch(setCurrentTime(value[0]))} 
-                        step={1}
-                    />
                 </div>
             </div>
             <audio ref={audioRef} src={currentEpisode?.file} onTimeUpdate={handleProgressUpdate} />
