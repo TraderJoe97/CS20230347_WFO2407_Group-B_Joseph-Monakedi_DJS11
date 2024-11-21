@@ -1,5 +1,6 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Card, CardTitle, CardHeader, CardFooter, CardContent } from "@/components/ui/card";
     
 interface show {
     id: number,
@@ -27,14 +28,24 @@ export default function Seasons() {
 
     return (
         <div>
-            <ol className="grid grid-cols-4 gap-10">
+            <ol className="grid grid-cols-2 md:grid-cols3 lg:grid-cols-4 gap-5">
                 {seasons.map((season: season) => (
                     <li key={season.season} className="">
                         <Link 
                         to={`/show/${id}/season/${season.season}`}>
-                            <h3>{season.title}</h3>
-                            <img src={season.image} alt={season.title} className=""/>
-                            <h4>Episodes {season.episodes.length}</h4>
+                            <Card className="h-full">
+                                <CardHeader>
+                                    <CardTitle>
+                                    {season.title}
+                                    </CardTitle>       
+                                </CardHeader>
+                                <CardContent>
+                                    <img src={season.image} alt={season.title} className="rounded"/>
+                                </CardContent>
+                                <CardFooter>
+                                    Episodes {season.episodes.length}
+                                </CardFooter>    
+                            </Card>
                         </Link>
                     </li>
                 ))}

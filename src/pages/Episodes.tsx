@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { setCurrentEpisode } from '../store/playerSlice';
+import { NavLink } from 'react-router-dom';
 
 interface Episode {
   episode: number;
@@ -47,6 +48,9 @@ export default function Episodes () {
 
   return (
     <div className="space-y-6">
+      <NavLink to={`/show/${show.id}`}>
+        <Button>Back to all Seasons</Button>
+      </NavLink>
       <h2 className="text-2xl font-bold">Season {seasonId} Episodes</h2>
       {episodes.map((episode) => (
         <Card key={episode.episode}>

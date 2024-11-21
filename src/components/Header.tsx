@@ -6,7 +6,7 @@ import { ModeToggle } from "./mode-toggle";
 
 export default function Header() {
     return (
-        <header className="flex items-center justify-between p-5 border-b">
+        <header className="flex items-center gap-2 justify-between p-5 border-b">
             <Input
                 type="search"
                 placeholder="Search podcasts..."
