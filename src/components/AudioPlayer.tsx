@@ -10,11 +10,12 @@ import { formatTime } from "@/lib/helperFunctions"
 
 export default function AudioPlayer() {
     const {currentEpisode, isPlaying, currentTime} = useSelector((state: RootState) => state.player)
-    const audioRef = useRef<HTMLAudioElement>(null)
+    const audioRef = useRef<HTMLAudioElement>(new Audio())
     const dispatch = useDispatch()
-
+    
     useEffect(() => {
         if (audioRef.current) {
+            audioRef.current.src = currentEpisode?.file || "";
             if (isPlaying) {
                 audioRef.current.play();
             } else {
@@ -22,7 +23,7 @@ export default function AudioPlayer() {
             }
         }
     }, [isPlaying,currentEpisode]);
-
+    
     const handlePlayPause = () => {
         dispatch(togglePlaying());
     };
@@ -32,25 +33,31 @@ export default function AudioPlayer() {
             dispatch(setCurrentTime(audioRef.current.currentTime));
         }
     }
-
+    
+    
     return (
         <footer className=" w-full border-t p-4">
             <div className="flex flex-col justify-between items-center">
                 <div className="flex justify-between items-center w-full">
-                    <h3>{currentEpisode?.title}</h3>
+                    <p>{currentEpisode?.title}</p>
                     { audioRef.current ? 
                         <p>{formatTime(audioRef.current?.currentTime)}/{formatTime(audioRef.current?.duration ? audioRef.current.duration : 0)}</p> : 
                         <p></p>}
                 </div>
                 <div className="flex-1 w-full mx-5">
                     <Slider 
-                        value={[currentTime]} 
+                        defaultValue={[currentTime]}
                         max={audioRef.current ? audioRef.current.duration : 0} 
                         onValueChange={(value) => dispatch(setCurrentTime(value[0]))} 
+                        onValueCommit={(value) => {
+                            if (audioRef.current) {
+                                audioRef.current.currentTime = value[0];
+                            }
+                        }}
                         step={1}
                     />
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center gap-2">
                     <Button size="icon" variant="ghost">
                         <SkipBack className="h-5 w-5" />
                     </Button>
@@ -61,12 +68,20 @@ export default function AudioPlayer() {
                     <Button size="icon" variant="ghost">
                         <SkipForward className="h-5 w-5" />
                     </Button>
-                    <Button size="icon" variant="ghost">
+                    <Button size="icon" variant="ghost" onClick={() => {audioRef.current.volume = audioRef.current.volume === 0 ? 1 : 0} }>
                         <Volume2 className="h-5 w-5" />
                     </Button>
+                    <Slider
+                        value={[audioRef.current? audioRef.current.volume : 0]}
+                        onValueChange={(value) => {audioRef.current.volume = value[0]}}
+                        step={0.1}
+                        min={0}
+                        max={1}
+                        className=""
+                    />
                 </div>
             </div>
-            <audio ref={audioRef} src={currentEpisode?.file} onTimeUpdate={handleProgressUpdate} />
+            <audio ref={audioRef} onTimeUpdate={handleProgressUpdate} />
         </footer>
     )   
 

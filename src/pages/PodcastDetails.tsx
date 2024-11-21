@@ -34,7 +34,7 @@ export default function PodcastDetails() {
         () => { fetch(`https://podcast-api.netlify.app/id/${showId}`)
         .then((res) => res.json())
         .then((data) => setShow(data))
-        },[]
+        },[showId]
     )
     return (
         <div>

@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent  } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface PodcastPreview {
   id: number
@@ -74,10 +74,10 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
                          
                         aspectRatio: "1/1",}
                     }>  
-                        <Link 
+                        <NavLink 
                             to={`show/${podcast.id}`}
                             className="h-full w-full flex flex-col justify-between">
-                                <CardHeader className="bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
+                                <CardHeader className="bg-white bg-opacity-80 dark:bg-gray-950  dark:bg-opacity-80">
                                     <CardTitle className="text-left line-clamp-1">{podcast.title}</CardTitle>
                                 </CardHeader>  
                                <CardFooter className="flex flex-col gap-0 bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
@@ -85,7 +85,7 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
                                     <p className="w-full flex text-left">Seasons: {podcast.seasons}</p>
                                     <p className="w-full flex text-left line-clamp-1">Genres: {podcast.genres.map((id) => genres[id]).join(", ")}</p>
                                 </CardFooter>
-                        </Link>
+                        </NavLink>
                     </Card>
                 ))}
             </div>
