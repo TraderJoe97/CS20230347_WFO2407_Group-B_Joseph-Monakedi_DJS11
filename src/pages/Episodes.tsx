@@ -52,17 +52,19 @@ export default function Episodes () {
         <Button>Back to all Seasons</Button>
       </NavLink>
       <h2 className="text-2xl font-bold">Season {seasonId} Episodes</h2>
-      {episodes.map((episode) => (
-        <Card key={episode.episode}>
-          <CardHeader>
-            <CardTitle>{episode.title}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4">{episode.description}</p>
-            <Button onClick={() => handlePlay(episode)}>Play Episode</Button>
-          </CardContent>
-        </Card>
-      ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" >
+        {episodes.map((episode) => (
+          <Card key={episode.episode}>
+            <CardHeader>
+              <CardTitle>{episode.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4">{episode.description}</p>
+              <Button onClick={() => handlePlay(episode)}>Play Episode</Button>
+            </CardContent>
+          </Card>
+        ))}
+        </div>
     </div>
   );
 };
