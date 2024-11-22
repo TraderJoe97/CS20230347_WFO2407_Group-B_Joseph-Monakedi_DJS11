@@ -28,7 +28,7 @@ export default function Seasons() {
 
     return (
         <div>
-            <ol className="grid grid-cols-2 md:grid-cols3 lg:grid-cols-4 gap-5">
+            <ol className="grid grid-cols-1 md:grid-cols3 lg:grid-cols-4 gap-5">
                 {seasons.map((season: season) => (
                     <li key={season.season} className="">
                         <NavLink 

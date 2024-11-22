@@ -166,7 +166,7 @@ export default function AudioPlayer() {
                     </Button>
                 </div>
             </div>
-            <audio ref={audioRef} onTimeUpdate={handleProgressUpdate} onLoadedMetadata={handleLoadedMetadata}/>
+            <audio ref={audioRef} onTimeUpdate={handleProgressUpdate} onLoadedMetadata={handleLoadedMetadata} onEnded={handlePlayPause}/>
         </footer>
     )   
 
