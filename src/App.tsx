@@ -7,7 +7,12 @@ import { Provider } from 'react-redux'
 import { store } from './store/store' 
 import Seasons from './pages/Seasons.tsx'
 import Episodes from './pages/Episodes.tsx'
+import { saveStateToLocalStorage } from '@/app/browser-storage.ts'
+import debounce from 'debounce'
 
+store.subscribe(() => {
+  debounce(() => saveStateToLocalStorage(store.getState()), 1000)
+})
 function RootLayout() {
   return (
     <Provider store={store}>

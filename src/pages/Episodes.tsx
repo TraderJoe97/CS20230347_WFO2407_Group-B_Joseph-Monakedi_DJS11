@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { setCurrentEpisode, resetPlayer } from "../store/playerSlice";
 import { NavLink } from "react-router-dom";
@@ -96,18 +102,22 @@ export default function Episodes() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">{episode.description}</p>
-              <Button onClick={() => handlePlay(episode)}>Play Episode</Button>
-              <Button
-                variant={"ghost"}
-                onClick={() => handleToggleFavEpisode(episode)}
-              >
-                <Heart
-                  className={`w-5 h-5 ${
-                    isFavEpisode(episode) ? "fill-red-500" : ""
-                  }`}
-                />
-              </Button>
             </CardContent>
+            <CardFooter>
+              <div className="flex justify-between w-full">
+                <Button onClick={() => handlePlay(episode)}>
+                  Play Episode
+                </Button>
+                <Button
+                  variant={"ghost"}
+                  onClick={() => handleToggleFavEpisode(episode)}
+                >
+                  <Heart
+                    className={`${isFavEpisode(episode) ? "fill-red-500 stroke-red-500" : ""}`}
+                  />
+                </Button>
+              </div>
+            </CardFooter>
           </Card>
         ))}
       </div>
