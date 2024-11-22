@@ -79,11 +79,13 @@ function gridPreview(props: {podcasts: PodcastPreview[], isLoading: boolean}) {
                             className="h-full w-full flex flex-col justify-between">
                                 <CardHeader className="bg-white bg-opacity-80 dark:bg-gray-950  dark:bg-opacity-80">
                                     <CardTitle className="text-left line-clamp-1">{podcast.title}</CardTitle>
-                                </CardHeader>  
-                               <CardFooter className="flex flex-col gap-0 bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
-                                    <p className="w-full flex text-left">Updated: {new Date(podcast.updated).toLocaleString("en-ZA", { month: "long", day: "numeric", year: "numeric" })}</p>
-                                    <p className="w-full flex text-left">Seasons: {podcast.seasons}</p>
-                                    <p className="w-full flex text-left line-clamp-1">Genres: {podcast.genres.map((id) => genres[id]).join(", ")}</p>
+                                </CardHeader> 
+                               <CardFooter className=" bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
+                                    <CardDescription className="text-sm">
+                                    <p className="place-self-start line-clamp-1">{new Date(podcast.updated).toLocaleString("en-ZA", { month: "long", day: "numeric", year: "numeric" })}</p>
+                                    <p className="place-self-start line-clamp-1">{podcast.seasons} Season{podcast.seasons === 1 ? "" : "s" }</p>
+                                    <span className="place-self-start line-clamp-1">{podcast.genres.map((id) => genres[id]).join(", ")}</span>
+                                    </CardDescription>
                                 </CardFooter>
                         </NavLink>
                     </Card>
