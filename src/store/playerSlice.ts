@@ -8,7 +8,7 @@ interface PlayerState {
 
 interface CurrentEpisode {
     id: number;
-    title: string
+    title: string;
     file: string;
     showId: number;
     seasonId: number;
