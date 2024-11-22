@@ -107,15 +107,17 @@ export default function Episodes() {
       <h2 className="text-2xl font-bold">Season {seasonId} Episodes</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {episodes.map((episode) => (
-          <Card key={episode.episode}>
+          <Card 
+            key={episode.episode}
+            className="h-full flex flex-col"
+          >
             <CardHeader>
               <CardTitle>{episode.title}</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1">
               <p className="mb-4">{episode.description}</p>
             </CardContent>
-            <CardFooter>
-              <div className="flex justify-between w-full">
+            <div className="flex self-end align-center  p-5 justify-between w-full">
                 <Button onClick={() => handlePlay(episode)}>
                   Play Episode
                 </Button>
@@ -127,8 +129,8 @@ export default function Episodes() {
                     className={`${isFavEpisode(episode) ? "fill-red-500 stroke-red-500" : ""}`}
                   />
                 </Button>
-              </div>
-            </CardFooter>
+           
+            </div>
           </Card>
         ))}
       </div>
