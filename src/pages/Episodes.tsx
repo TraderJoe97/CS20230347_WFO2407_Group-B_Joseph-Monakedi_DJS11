@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
