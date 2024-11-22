@@ -11,7 +11,16 @@ import { saveStateToLocalStorage } from '@/app/browser-storage.ts'
 import debounce from 'debounce'
 
 store.subscribe(() => {
-  debounce(() => saveStateToLocalStorage(store.getState()), 1000)
+  try {
+    const currentState = store.getState();
+    if (currentState) {
+      debounce(() => saveStateToLocalStorage(currentState), 1000)();
+    } else {
+      console.warn("Store state is null or undefined");
+    }
+  } catch (error) {
+    console.error("Error during state subscription:", error);
+  }
 })
 function RootLayout() {
   return (
