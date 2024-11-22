@@ -9,7 +9,7 @@ export default function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col h-dvh w-dvw">
         <Header />
         <div className="flex flex-1 h-full overflow-hidden">
           <ScrollArea className="flex-1 h-full p-5">
