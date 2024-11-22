@@ -57,28 +57,31 @@ export default function AudioPlayer() {
                         step={1}
                     />
                 </div>
-                <div className="flex items-center gap-2">
-                    <Button size="icon" variant="ghost">
-                        <SkipBack className="h-5 w-5" />
-                    </Button>
-                    <Button size="icon" variant="ghost" onClick={handlePlayPause}>
-                        {!isPlaying ? <Play className="h-5 w-5" /> :
-                        <Pause className="h-5 w-5" />}
-                    </Button>
-                    <Button size="icon" variant="ghost">
-                        <SkipForward className="h-5 w-5" />
-                    </Button>
-                    <Button size="icon" variant="ghost" onClick={() => {audioRef.current.volume = audioRef.current.volume === 0 ? 1 : 0} }>
-                        <Volume2 className="h-5 w-5" />
-                    </Button>
-                    <Slider
-                        value={[audioRef.current? audioRef.current.volume : 0]}
-                        onValueChange={(value) => {audioRef.current.volume = value[0]}}
-                        step={0.1}
-                        min={0}
-                        max={1}
-                        className=""
-                    />
+                <div className="flex  w-full items-center gap-2 p-2">
+                    <img  className="h-10 w-10" src={currentEpisode?.seasonImage} alt="SeasonImage"/>
+                    <div className="flex items-center gap-2">
+                        <Button size="icon" variant="ghost">
+                            <SkipBack className="h-5 w-5" />
+                        </Button>
+                        <Button size="icon" variant="ghost" onClick={handlePlayPause}>
+                            {!isPlaying ? <Play className="h-5 w-5" /> :
+                            <Pause className="h-5 w-5" />}
+                        </Button>
+                        <Button size="icon" variant="ghost">
+                            <SkipForward className="h-5 w-5" />
+                        </Button>
+                        <Button size="icon" variant="ghost" onClick={() => {audioRef.current.volume = audioRef.current.volume === 0 ? 1 : 0} }>
+                            <Volume2 className="h-5 w-5" />
+                        </Button>
+                        <Slider
+                            value={[audioRef.current? audioRef.current.volume : 0]}
+                            onValueChange={(value) => {audioRef.current.volume = value[0]}}
+                            step={0.1}
+                            min={0}
+                            max={1}
+                            className=""
+                            />
+                    </div>
                 </div>
             </div>
             <audio ref={audioRef} onTimeUpdate={handleProgressUpdate} />

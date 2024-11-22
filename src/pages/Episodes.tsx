@@ -22,9 +22,16 @@ interface Episode {
   file: string;
 }
 
+interface FavouriteEpisode {
+  id: number;
+  showId: number;
+  seasonId: number;
+}
+
 interface Season {
   season: number;
   episodes: Episode[];
+  image: string;
 }
 
 interface Show {
@@ -34,6 +41,7 @@ interface Show {
 
 export default function Episodes() {
   const { seasonId } = useParams<{ seasonId: string }>();
+  const seasonIdNumber = seasonId ? parseInt(seasonId) : 0;
   const show = useOutletContext<Show>();
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const dispatch = useDispatch();
@@ -55,13 +63,16 @@ export default function Episodes() {
         id: episode.episode,
         title: episode.title,
         file: episode.file,
+        showId: show.id,
+        seasonId: seasonIdNumber,
+        seasonImage: show.seasons[seasonIdNumber-1].image,
       })
     );
   };
   const isFavEpisode = (episode: Episode) => {
     if (seasonId && show && favourites.episodes.length > 0) {
       const isFav = favourites.episodes.some(
-        (fav) =>
+        (fav: FavouriteEpisode) =>
           fav.id === episode.episode &&
           fav.showId === show.id &&
           fav.seasonId === parseInt(seasonId)

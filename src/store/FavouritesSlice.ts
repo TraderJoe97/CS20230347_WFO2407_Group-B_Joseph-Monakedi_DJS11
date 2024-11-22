@@ -25,11 +25,14 @@ const favouritesSlice = createSlice({
     removeFavourite: (state, action: PayloadAction<FavouriteEpisode>) => {
       state.episodes = state.episodes.filter(
         (episode) =>
-          episode.id !== action.payload.id &&
-          episode.showId !== action.payload.showId &&
-          episode.seasonId !== action.payload.seasonId
+          !(
+            episode.id === action.payload.id &&
+            episode.showId === action.payload.showId &&
+            episode.seasonId === action.payload.seasonId
+          )
       );
     },
+
     ClearAllFavourates: (state) => {
       state.episodes = [];
     },

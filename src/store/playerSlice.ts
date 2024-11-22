@@ -1,19 +1,18 @@
 import {createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface PlayerState {
-    currentEpisode: {
-        id: number
-        title: string
-        file: string
-    } | null;
+    currentEpisode: CurrentEpisode | null;
     isPlaying: boolean;
     currentTime: number
 }
 
-interface episode {
+interface CurrentEpisode {
     id: number;
     title: string
     file: string;
+    showId: number;
+    seasonId: number;
+    seasonImage: string;
 }
 
 const initialState: PlayerState = {
@@ -26,11 +25,14 @@ const playerSlice = createSlice({
     name: 'player',
     initialState,
     reducers: {
-        setCurrentEpisode: (state, action: PayloadAction<episode>) => {
+        setCurrentEpisode: (state, action: PayloadAction<CurrentEpisode>) => {
             state.currentEpisode = {
                 id: action.payload.id,
                 title: action.payload.title,
                 file: action.payload.file,
+                showId: action.payload.showId,
+                seasonId: action.payload.seasonId,
+                seasonImage: action.payload.seasonImage,
             };
             state.isPlaying = true;
         },
