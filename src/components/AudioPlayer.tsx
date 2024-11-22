@@ -21,6 +21,10 @@ export default function AudioPlayer() {
     const audioRef = useRef<HTMLAudioElement>(new Audio())
     const dispatch = useDispatch()
     const [isFavEpisode, setIsFavEpisode] = useState(false);
+    const [volume, setVolume] = useState(1)
+    const [duration, setDuration] = useState(0)
+    const [localCurrentTime, setLocalCurrentTime] = useState(currentTime)
+    const [isSeeking, setIsSeeking] = useState(false)
 
     useEffect(() => {
          if (currentEpisode ) {
@@ -44,7 +48,11 @@ export default function AudioPlayer() {
         }
     }, [isPlaying,currentEpisode]);
 
-
+    useEffect(() => {
+        if (!isSeeking) {
+            setLocalCurrentTime(currentTime)
+        }
+    }, [currentTime, isSeeking])
     
     const handlePlayPause = () => {
         dispatch(togglePlaying());
@@ -56,7 +64,21 @@ export default function AudioPlayer() {
         }
     }
 
-    
+     const handleSeekStart = () => {
+    setIsSeeking(true)
+  }
+
+  const handleSeekChange = (value: number[]) => {
+    setLocalCurrentTime(value[0])
+  }
+
+  const handleSeekEnd = (value: number[]) => {
+    setIsSeeking(false)
+    if (audioRef.current) {
+      audioRef.current.currentTime = value[0]
+    }
+    dispatch(setCurrentTime(value[0]))
+  }
 
     const handleToggleFavEpisode = () => {
     if (currentEpisode && isFavEpisode) {
@@ -77,6 +99,19 @@ export default function AudioPlayer() {
       );
     };
 
+    const handleVolumeChange = (value: number[]) => {
+    const newVolume = value[0]
+    setVolume(newVolume)
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume
+    }
+  }
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration)
+    }
+  }
 
     return (
         <footer className=" w-full border-t p-4">
@@ -84,20 +119,18 @@ export default function AudioPlayer() {
                 <div className="flex justify-between items-center w-full">
                     <p>{currentEpisode?.title}</p>
                     { audioRef.current ? 
-                        <p>{formatTime(audioRef.current?.currentTime)}/{formatTime(audioRef.current?.duration ? audioRef.current.duration : 0)}</p> : 
+                        <p>{formatTime(localCurrentTime)}/{formatTime(duration)}</p> : 
                         <p></p>}
                 </div>
                 <div className="flex-1 w-full mx-5">
                     <Slider 
-                        defaultValue={[currentTime]}
-                        max={audioRef.current ? audioRef.current.duration : 0} 
-                        onValueChange={(value) => dispatch(setCurrentTime(value[0]))} 
-                        onValueCommit={(value) => {
-                            if (audioRef.current) {
-                                audioRef.current.currentTime = value[0];
-                            }
-                        }}
+                        value={[localCurrentTime]}
+                        max={duration} 
+                        onValueChange={handleSeekChange} 
+                        onValueCommit={handleSeekEnd}
+                        onPointerDown={handleSeekStart}
                         step={1}
+                        aria-label="Seek"
                     />
                 </div>
                 <div className="flex  w-full items-center gap-2 p-2">
@@ -117,12 +150,13 @@ export default function AudioPlayer() {
                             <Volume2 className="h-5 w-5" />
                         </Button>
                         <Slider
-                            value={[audioRef.current? audioRef.current.volume : 0]}
-                            onValueChange={(value) => {audioRef.current.volume = value[0]}}
+                            value={[volume]}
+                            onValueChange={handleVolumeChange}
                             step={0.1}
                             min={0}
                             max={1}
-                            className="w-20"
+                            className="w-full"
+                            aria-label="Volume"
                             />
                     </div>
                     <Button variant="ghost" onClick={handleToggleFavEpisode}>
@@ -132,7 +166,7 @@ export default function AudioPlayer() {
                     </Button>
                 </div>
             </div>
-            <audio ref={audioRef} onTimeUpdate={handleProgressUpdate} />
+            <audio ref={audioRef} onTimeUpdate={handleProgressUpdate} onLoadedMetadata={handleLoadedMetadata}/>
         </footer>
     )   
 
