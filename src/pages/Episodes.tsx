@@ -38,18 +38,14 @@ export default function Episodes () {
     }
   }, [show, seasonId]);
 
-  const handlePlay = async (episode: Episode) => {
-    try {
-      await dispatch(resetPlayer());
-      await new Promise((resolve) => setTimeout(resolve, 0));
-      await dispatch(setCurrentEpisode({
+  const handlePlay = (episode: Episode) => {
+      dispatch(resetPlayer());
+      dispatch(setCurrentEpisode({
         id: episode.episode,
         title: episode.title,
         file: episode.file,
       }));
-    } catch (error) {
-      console.error("Error handling play action:", error);
-    }
+  
   };
 
   return (
