@@ -10,13 +10,13 @@ export default function AppSidebar() {
         <SidebarGroup />
         <SidebarMenu>
           <SidebarMenuButton>
-            <HouseIcon />
+            <HouseIcon size="icon" />
             <NavLink to="/" className="block py-2 hover:underline">
               Podcasts
             </NavLink>
           </SidebarMenuButton>
           <SidebarMenuButton>
-            <HeartIcon />
+            <HeartIcon size="icon"/>
             <NavLink to="/" className="block py-2 hover:underline">
               Favourites
             </NavLink>
