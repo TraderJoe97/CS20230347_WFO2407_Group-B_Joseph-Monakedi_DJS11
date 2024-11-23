@@ -98,6 +98,7 @@ export default function AudioPlayer() {
       dispatch(
         removeFavourite({
           id: currentEpisode.id,
+          title: "",
           showId: currentEpisode.showId,
           seasonId: currentEpisode.seasonId,
           file: "",
@@ -109,6 +110,7 @@ export default function AudioPlayer() {
       dispatch(
         addFavourite({
           id: currentEpisode.id,
+          title: currentEpisode.title,
           showId: currentEpisode.showId,
           seasonId: currentEpisode.seasonId,
           file: currentEpisode.file,
