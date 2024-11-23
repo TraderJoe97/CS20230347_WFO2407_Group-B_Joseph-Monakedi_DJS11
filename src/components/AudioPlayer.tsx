@@ -1,7 +1,7 @@
 // audio controls component
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Play,Pause, SkipBack, SkipForward, Volume2, Heart } from "lucide-react"
+import { Play,Pause, SkipBack, SkipForward, Volume2, VolumeOff, Heart } from "lucide-react"
 import { useRef, useEffect, useState} from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "@/store/store"
@@ -146,8 +146,8 @@ export default function AudioPlayer() {
                         <Button size="icon" variant="ghost">
                             <SkipForward className="h-5 w-5" />
                         </Button>
-                        <Button size="icon" variant="ghost" onClick={() => {audioRef.current.volume = audioRef.current.volume === 0 ? 1 : 0} }>
-                            <Volume2 className="h-5 w-5" />
+                        <Button size="icon" variant="ghost" onClick={() => {audioRef.current.muted = !audioRef.current.muted} }>
+                            {audioRef.current.muted ? <Volume2  /> : <VolumeOff />}
                         </Button>
                         <Slider
                             value={[volume]}
@@ -155,7 +155,7 @@ export default function AudioPlayer() {
                             step={0.1}
                             min={0}
                             max={1}
-                            className="w-full"
+                            className="w-1/4"
                             aria-label="Volume"
                             />
                     </div>
