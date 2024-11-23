@@ -25,7 +25,9 @@ store.subscribe(() => {
 function RootLayout() {
   return (
     <Provider store={store}>
-      <ThemeProvider>
+      <ThemeProvider
+      defaultTheme="system"
+      storageKey="Podcast-App-Theme">
         <Router>
           <Routes>
             <Route element={<Layout />}>
