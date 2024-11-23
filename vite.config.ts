@@ -12,4 +12,11 @@ export default defineConfig({
       "@ui": path.resolve(__dirname, "./src/components/ui"),
     },
   },
+ build: {
+  rollupOptions: {
+   input: {
+    main: "./index.html",
+   },
+  },
+ },
 })
