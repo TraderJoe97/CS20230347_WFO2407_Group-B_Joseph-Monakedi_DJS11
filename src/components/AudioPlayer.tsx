@@ -123,9 +123,28 @@ export default function AudioPlayer() {
     }
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isPlaying) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isPlaying]);
+
   return (
-    <footer className=" w-full border-t p-4">
-      <div className="flex flex-col justify-between items-center">
+    <footer className="w-full flex place-items-center gap-2 px-2 border-t ">
+      <img
+            className="h-10 w-10 md:h-15 md:w-15 lg:h-20 lg:w-20 object-cover"
+            src={currentEpisode?.seasonImage}
+            alt="SeasonImage"
+          />
+      <div className="flex w-full flex-col justify-between items-center">
         <div className="flex justify-between items-center w-full">
           <p>{currentEpisode?.title}</p>
           {audioRef.current ? (
@@ -147,12 +166,8 @@ export default function AudioPlayer() {
             aria-label="Seek"
           />
         </div>
-        <div className="flex  w-full items-center gap-2 p-2">
-          <img
-            className="h-10 w-10"
-            src={currentEpisode?.seasonImage}
-            alt="SeasonImage"
-          />
+        <div className="flex w-full items-center gap-2 p-2">
+          
           <div className="flex items-center w-full gap-2">
             <Button size="icon" variant="ghost">
               <SkipBack className="h-5 w-5" />
@@ -174,7 +189,7 @@ export default function AudioPlayer() {
                 audioRef.current.muted = !audioRef.current.muted;
               }}
             >
-              {audioRef.current.muted ? <Volume2 /> : <VolumeOff />}
+              {!audioRef.current.muted ? <Volume2 /> : <VolumeOff />}
             </Button>
             <Slider
               value={[volume]}
