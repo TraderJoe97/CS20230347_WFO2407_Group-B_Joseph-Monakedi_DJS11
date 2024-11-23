@@ -146,7 +146,7 @@ export default function PodcastPreviewList() {
   }, []);
 
   if (location.pathname === "/favourites") {
-    return <Outlet />;
+    return <Outlet context={podcasts}/>;
   } else {
     return (
       <>

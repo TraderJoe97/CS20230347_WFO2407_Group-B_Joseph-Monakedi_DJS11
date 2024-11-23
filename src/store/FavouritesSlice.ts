@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface FavouriteEpisode {
   id: number;
+  title: string;
   showId: number;
   seasonId: number;
   file: string;

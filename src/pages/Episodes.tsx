@@ -108,6 +108,7 @@ export default function Episodes() {
           id: episode.episode,
           showId: show.id,
           seasonId: seasonIdNumber,
+          title: "",
           file: "",
           seasonImage: "",
           dateAdded: 0,
@@ -117,6 +118,7 @@ export default function Episodes() {
       dispatch(
         addFavourite({
           id: episode.episode,
+          title: episode.title,
           showId: show.id,
           dateAdded: new Date().valueOf(),
           seasonId: seasonIdNumber,
