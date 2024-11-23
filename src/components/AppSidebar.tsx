@@ -25,7 +25,7 @@ export default function AppSidebar() {
           </SidebarMenuButton>
           <SidebarMenuButton>
             <HeartIcon size="icon" />
-            <NavLink to="/" className="block py-2 hover:underline">
+            <NavLink to="favourites" className="block py-2 hover:underline">
               Favourites
             </NavLink>
           </SidebarMenuButton>

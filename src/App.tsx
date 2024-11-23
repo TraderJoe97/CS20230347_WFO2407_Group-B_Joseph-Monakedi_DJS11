@@ -9,6 +9,7 @@ import Seasons from "./pages/Seasons.tsx";
 import Episodes from "./pages/Episodes.tsx";
 import { saveStateToLocalStorage } from "@/app/browser-storage.ts";
 import debounce from "debounce";
+import Favourites from "./pages/Favourites.tsx";
 
 store.subscribe(() => {
   try {
@@ -31,7 +32,9 @@ function RootLayout() {
         <Router>
           <Routes>
             <Route element={<Layout />}>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home />} >
+                <Route path="favourites" element={<Favourites />} />
+              </Route>
               <Route path="show/:id" element={<PodcastDetails />}>
                 <Route index element={<Seasons />} />
                 <Route path="season/:seasonId" element={<Episodes />} />

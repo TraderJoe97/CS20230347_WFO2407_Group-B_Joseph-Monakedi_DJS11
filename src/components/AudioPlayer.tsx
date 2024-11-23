@@ -21,6 +21,9 @@ interface FavouriteEpisode {
   id: number;
   showId: number;
   seasonId: number;
+  file: string;
+  seasonImage: string;
+  dateAdded: number;
 }
 
 export default function AudioPlayer() {
@@ -97,6 +100,9 @@ export default function AudioPlayer() {
           id: currentEpisode.id,
           showId: currentEpisode.showId,
           seasonId: currentEpisode.seasonId,
+          file: "",
+          seasonImage: "",
+          dateAdded: 0,
         })
       );
     } else if (currentEpisode)
@@ -105,6 +111,9 @@ export default function AudioPlayer() {
           id: currentEpisode.id,
           showId: currentEpisode.showId,
           seasonId: currentEpisode.seasonId,
+          file: currentEpisode.file,
+          seasonImage: currentEpisode.seasonImage,
+          dateAdded: new Date().valueOf(),
         })
       );
   };
@@ -140,10 +149,10 @@ export default function AudioPlayer() {
   return (
     <footer className="w-full flex place-items-center gap-2 px-2 border-t ">
       <img
-            className="h-10 w-10 md:h-15 md:w-15 lg:h-20 lg:w-20 object-cover"
-            src={currentEpisode?.seasonImage}
-            alt="SeasonImage"
-          />
+        className="h-10 w-10 md:h-15 md:w-15 lg:h-20 lg:w-20 object-cover"
+        src={currentEpisode?.seasonImage}
+        alt="SeasonImage"
+      />
       <div className="flex w-full flex-col justify-between items-center">
         <div className="flex justify-between items-center w-full">
           <p>{currentEpisode?.title}</p>
@@ -167,7 +176,6 @@ export default function AudioPlayer() {
           />
         </div>
         <div className="flex w-full items-center gap-2 p-2">
-          
           <div className="flex items-center w-full gap-2">
             <Button size="icon" variant="ghost">
               <SkipBack className="h-5 w-5" />

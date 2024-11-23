@@ -4,6 +4,10 @@ interface FavouriteEpisode {
   id: number;
   showId: number;
   seasonId: number;
+  file: string;
+  seasonImage: string;
+  dateAdded: number;
+
 }
 
 interface FavouritesState {

@@ -8,7 +8,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 
 interface PodcastPreview {
   id: number;
@@ -126,6 +126,7 @@ function gridPreview(props: {
 export default function PodcastPreviewList() {
   const [podcasts, setPodcasts] = useState<PodcastPreview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
       .then((res) => {
@@ -144,10 +145,15 @@ export default function PodcastPreviewList() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  return (
-    <>
-      <h1>Podcast Preview List</h1>
-      {gridPreview({ podcasts, isLoading })}
-    </>
-  );
+  if (location.pathname === "/favourites") {
+    return <Outlet />;
+  } else {
+    return (
+      <>
+        <h1>Podcast Preview List</h1>
+        {gridPreview({ podcasts, isLoading })}
+        {JSON.stringify(location)}
+      </>
+    );
+  }
 }

@@ -35,6 +35,9 @@ interface FavouriteEpisode {
   id: number;
   showId: number;
   seasonId: number;
+  file: string;
+  seasonImage: string;
+  dateAdded: number;
 }
 
 interface Season {
@@ -45,6 +48,7 @@ interface Season {
 
 interface Show {
   id: number;
+  title: string;
   seasons: Season[];
 }
 
@@ -85,6 +89,7 @@ export default function Episodes() {
       })
     );
   };
+  
   const isFavEpisode = (episode: Episode) => {
     if (seasonId && show && favourites.episodes.length > 0) {
       const isFav = favourites.episodes.some(
@@ -102,7 +107,10 @@ export default function Episodes() {
         removeFavourite({
           id: episode.episode,
           showId: show.id,
-          seasonId: parseInt(seasonId),
+          seasonId: seasonIdNumber,
+          file: "",
+          seasonImage: "",
+          dateAdded: 0,
         })
       );
     } else if (seasonId)
@@ -110,7 +118,10 @@ export default function Episodes() {
         addFavourite({
           id: episode.episode,
           showId: show.id,
-          seasonId: parseInt(seasonId),
+          dateAdded: new Date().valueOf(),
+          seasonId: seasonIdNumber,
+          seasonImage: show.seasons[seasonIdNumber - 1].image,
+          file: episode.file,
         })
       );
   };
