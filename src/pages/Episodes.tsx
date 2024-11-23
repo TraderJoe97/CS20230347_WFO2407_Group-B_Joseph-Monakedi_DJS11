@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -55,7 +55,22 @@ export default function Episodes() {
    const dispatch = useDispatch();
   const favourites = useSelector((state: RootState) => state.favourites);
   const [currentPage, setCurrentPage] = useState(seasonIdNumber);
+  const [maxItems, setMaxItems] = useState(5); // items in pagination component
 
+  const updateMaxItems = () => {
+    const width = window.innerWidth;
+    if (width < 640) setMaxItems(4); // Small screens
+    else if (width < 1024) setMaxItems(7); // Medium screens
+    else setMaxItems(15); // Large screens
+  };
+
+    // Update maxItems dynamically on screen resize
+  useEffect(() => {
+    updateMaxItems(); // Initial setup
+    const handleResize = () => updateMaxItems();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handlePlay = (episode: Episode) => {
     dispatch(resetPlayer());
@@ -104,7 +119,7 @@ export default function Episodes() {
     setCurrentPage(page);
   };
 
-  const getVisibleSeasons = (currentPage: number, seasons: Season[], maxItems = 20): Season[] => {
+  const getVisibleSeasons = (currentPage: number, seasons: Season[], maxItems: number): Season[] => {
   const totalSeasons = seasons.length;
   const half = Math.floor(maxItems / 2);
   
@@ -138,7 +153,7 @@ return (
             }
           />
         </PaginationItem>
-        {getVisibleSeasons(currentPage, show.seasons).map((season) => (
+        {getVisibleSeasons(currentPage, show.seasons, maxItems).map((season) => (
           <PaginationItem key={season.season}>
             <PaginationLink 
               to={`/show/${show.id}/season/${season.season}`}
