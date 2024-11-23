@@ -6,7 +6,6 @@ interface FavouriteEpisode {
   seasonId: number;
 }
 
-
 interface FavouritesState {
   episodes: FavouriteEpisode[];
 }

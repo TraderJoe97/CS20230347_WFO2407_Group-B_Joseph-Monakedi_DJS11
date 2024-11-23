@@ -34,4 +34,3 @@ export function saveStateToLocalStorage(state: RootState) {
     console.error("Failed to save state to localStorage:", err);
   }
 }
-

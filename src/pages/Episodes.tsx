@@ -14,15 +14,15 @@ import { NavLink } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { RootState } from "@/store/store";
 import { addFavourite, removeFavourite } from "@/store/FavouritesSlice";
-import { 
-  Pagination, 
-  PaginationContent, 
-  PaginationEllipsis, 
-  PaginationItem, 
-  PaginationLink, 
-  PaginationNext, 
-  PaginationPrevious 
-} from "@/components/ui/pagination"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface Episode {
   episode: number;
@@ -52,7 +52,7 @@ export default function Episodes() {
   const { seasonId } = useParams<{ seasonId: string }>();
   const seasonIdNumber = seasonId ? parseInt(seasonId) : 0;
   const show = useOutletContext<Show>();
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const favourites = useSelector((state: RootState) => state.favourites);
   const [currentPage, setCurrentPage] = useState(seasonIdNumber);
   const [maxItems, setMaxItems] = useState(5); // items in pagination component
@@ -64,7 +64,7 @@ export default function Episodes() {
     else setMaxItems(15); // Large screens
   };
 
-    // Update maxItems dynamically on screen resize
+  // Update maxItems dynamically on screen resize
   useEffect(() => {
     updateMaxItems(); // Initial setup
     const handleResize = () => updateMaxItems();
@@ -81,7 +81,7 @@ export default function Episodes() {
         file: episode.file,
         showId: show.id,
         seasonId: seasonIdNumber,
-        seasonImage: show.seasons[seasonIdNumber-1].image,
+        seasonImage: show.seasons[seasonIdNumber - 1].image,
       })
     );
   };
@@ -119,98 +119,111 @@ export default function Episodes() {
     setCurrentPage(page);
   };
 
-  const getVisibleSeasons = (currentPage: number, seasons: Season[], maxItems: number): Season[] => {
-  const totalSeasons = seasons.length;
-  const half = Math.floor(maxItems / 2);
-  
-  let start = Math.max(0, currentPage - half - 1);
-  let end = start + maxItems;
+  const getVisibleSeasons = (
+    currentPage: number,
+    seasons: Season[],
+    maxItems: number
+  ): Season[] => {
+    const totalSeasons = seasons.length;
+    const half = Math.floor(maxItems / 2);
 
-  if (end > totalSeasons) {
-    end = totalSeasons;
-    start = Math.max(0, end - maxItems);
-  }
+    let start = Math.max(0, currentPage - half - 1);
+    let end = start + maxItems;
 
-  return seasons.slice(start, end);
-};
-  
-return (
-  <div className="space-y-6">
-    <NavLink to={`/show/${show.id}`}>
-      <Button>Back to all Seasons</Button>
-    </NavLink>
-    <Pagination
-    >
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious 
-            to={`/show/${show.id}/season/${currentPage - 1}`}
-            onClick={() => handlePageChange(currentPage - 1)}
-            aria-disabled={currentPage <= 1}
-            tabIndex={currentPage <= 1 ? -1 : undefined}
-            className={
-              currentPage <= 1? "opacity-50 pointer-events-none" : ""
-            }
-          />
-        </PaginationItem>
-        {getVisibleSeasons(currentPage, show.seasons, maxItems).map((season) => (
-          <PaginationItem key={season.season}>
-            <PaginationLink 
-              to={`/show/${show.id}/season/${season.season}`}
-              onClick={() => handlePageChange(season.season)}
-              isActive={season.season === currentPage}
-            >
-              {season.season}
-            </PaginationLink>
+    if (end > totalSeasons) {
+      end = totalSeasons;
+      start = Math.max(0, end - maxItems);
+    }
+
+    return seasons.slice(start, end);
+  };
+
+  return (
+    <div className="space-y-6">
+      <NavLink to={`/show/${show.id}`}>
+        <Button>Back to all Seasons</Button>
+      </NavLink>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              to={`/show/${show.id}/season/${currentPage - 1}`}
+              onClick={() => handlePageChange(currentPage - 1)}
+              aria-disabled={currentPage <= 1}
+              tabIndex={currentPage <= 1 ? -1 : undefined}
+              className={
+                currentPage <= 1 ? "opacity-50 pointer-events-none" : ""
+              }
+            />
           </PaginationItem>
+          {getVisibleSeasons(currentPage, show.seasons, maxItems).map(
+            (season) => (
+              <PaginationItem key={season.season}>
+                <PaginationLink
+                  to={`/show/${show.id}/season/${season.season}`}
+                  onClick={() => handlePageChange(season.season)}
+                  isActive={season.season === currentPage}
+                >
+                  {season.season}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
+
+          {currentPage + Math.floor(5 / 2) < show.seasons.length && (
+            <PaginationEllipsis />
+          )}
+
+          <PaginationItem>
+            <PaginationNext
+              to={`/show/${show.id}/season/${currentPage + 1}`}
+              onClick={() => handlePageChange(currentPage + 1)}
+              aria-disabled={currentPage >= show.seasons.length}
+              tabIndex={currentPage >= show.seasons.length ? -1 : 0}
+              className={
+                currentPage >= show.seasons.length
+                  ? "opacity-50 pointer-events-none"
+                  : ""
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+      <h2 className="text-2xl font-bold">Season {currentPage} Episodes</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {show.seasons[currentPage - 1].episodes.map((episode) => (
+          <Card key={episode.episode} className="h-full flex flex-col">
+            <CardHeader>
+              <CardTitle>{episode.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1">
+              <p className="mb-4">{episode.description}</p>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <Button
+                onClick={() => handlePlay(episode)}
+                aria-label={`Play episode ${episode.title}`}
+              >
+                Play Episode
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => handleToggleFavEpisode(episode)}
+                aria-label={`${
+                  isFavEpisode(episode) ? "Remove from" : "Add to"
+                } favorites`}
+                aria-pressed={isFavEpisode(episode)}
+              >
+                <Heart
+                  className={
+                    isFavEpisode(episode) ? "fill-red-500 stroke-red-500" : ""
+                  }
+                />
+              </Button>
+            </CardFooter>
+          </Card>
         ))}
-        
-        {currentPage + Math.floor(5 / 2) < show.seasons.length && <PaginationEllipsis />}
-        
-        <PaginationItem>
-          <PaginationNext 
-            to={`/show/${show.id}/season/${currentPage + 1}`}
-            onClick={() => handlePageChange(currentPage + 1)}
-            aria-disabled={currentPage >= show.seasons.length}
-            tabIndex={currentPage >= show.seasons.length? -1 : 0}
-            className={
-              currentPage >= show.seasons.length? "opacity-50 pointer-events-none" : ""
-            }
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-    <h2 className="text-2xl font-bold">Season {currentPage} Episodes</h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-      {show.seasons[currentPage - 1].episodes.map((episode) => (
-        <Card 
-          key={episode.episode}
-          className="h-full flex flex-col"
-        >
-          <CardHeader>
-            <CardTitle>{episode.title}</CardTitle>
-          </CardHeader>
-          <CardContent className="flex-1">
-            <p className="mb-4">{episode.description}</p>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <Button onClick={() => handlePlay(episode)} aria-label={`Play episode ${episode.title}`}>
-              Play Episode
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => handleToggleFavEpisode(episode)}
-              aria-label={`${isFavEpisode(episode) ? 'Remove from' : 'Add to'} favorites`}
-              aria-pressed={isFavEpisode(episode)}
-            >
-              <Heart
-                className={isFavEpisode(episode) ? "fill-red-500 stroke-red-500" : ""}
-              />
-            </Button>
-          </CardFooter>
-        </Card>
-      ))}
+      </div>
     </div>
-  </div>
-);
+  );
 }

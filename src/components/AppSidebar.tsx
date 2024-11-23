@@ -1,6 +1,14 @@
-import { NavLink } from "react-router-dom"
-import { Sidebar, SidebarHeader, SidebarContent, SidebarGroup, SidebarFooter, SidebarMenu, SidebarMenuButton } from "@/components/ui/sidebar"
-import { HouseIcon, HeartIcon } from "lucide-react"
+import { NavLink } from "react-router-dom";
+import {
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarGroup,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuButton,
+} from "@/components/ui/sidebar";
+import { HouseIcon, HeartIcon } from "lucide-react";
 
 export default function AppSidebar() {
   return (
@@ -16,7 +24,7 @@ export default function AppSidebar() {
             </NavLink>
           </SidebarMenuButton>
           <SidebarMenuButton>
-            <HeartIcon size="icon"/>
+            <HeartIcon size="icon" />
             <NavLink to="/" className="block py-2 hover:underline">
               Favourites
             </NavLink>
@@ -28,4 +36,3 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
-
