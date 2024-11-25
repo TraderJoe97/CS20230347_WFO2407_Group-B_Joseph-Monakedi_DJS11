@@ -77,7 +77,7 @@ function gridPreview(props: {
   const { podcasts, isLoading } = props;
   return (
     <div className="grid grid-cols-1 gap-2 md:gap3 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {!isLoading
+      {isLoading
         ? Array.from({ length: 9 }).map((_, index) => skeletonCard(index))
         : podcasts.map((podcast: PodcastPreview) => (
             <Card
@@ -148,10 +148,10 @@ export default function PodcastPreviewList() {
     return <Outlet context={podcasts}/>;
   } else {
     return (
-      <>
+      <div className="w-full h-full">
         <h1>Podcast Preview List</h1>
         {gridPreview({ podcasts, isLoading })}
-      </>
+      </div>
     );
   }
 }
