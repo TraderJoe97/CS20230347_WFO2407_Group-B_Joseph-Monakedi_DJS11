@@ -33,8 +33,15 @@ export default function Favourites() {
 
   return (
     <div className="flex flex-col gap-5">
-      {favShows.map((show) => {
+      {favShows.filter(Boolean).map((show) => {
         if (show) {
+          const seasonsWithFavEpisodes = [
+            ...new Set(
+              favourites.episodes
+                .filter((episode) => episode.showId === show.id)
+                .map((episode) => episode.seasonId)
+            ),
+          ];
           return (
             <Card key={show.id}>
               <CardHeader>
@@ -48,6 +55,24 @@ export default function Favourites() {
                     {show.title}
                   </div>
                 </CardTitle>
+                <CardContent className="flex flex-col gap-2 p-2">
+                  {seasonsWithFavEpisodes &&
+                    seasonsWithFavEpisodes.map((seasonId) => (
+                      <Card key={seasonId} className="w-full border-none px-2">
+                        <h2 className="font-bold">Season {seasonId}</h2>
+                        {favourites.episodes
+                          .filter(
+                            (episode) =>
+                              episode.showId === show.id &&
+                              episode.seasonId === seasonId
+                          )
+                          .map((episode) => (
+                            <div key={episode.id}>{episode.title}</div>
+                            
+                          ))}
+                      </Card>
+                    ))}
+                </CardContent>
               </CardHeader>
             </Card>
           );
