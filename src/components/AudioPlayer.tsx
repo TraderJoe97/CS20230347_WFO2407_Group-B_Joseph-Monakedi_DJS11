@@ -179,21 +179,21 @@ export default function AudioPlayer() {
         </div>
         <div className="flex w-full items-center gap-2 p-2">
           <div className="flex items-center w-full gap-2">
-            <Button size="icon" variant="ghost">
-              <SkipBack className="h-5 w-5" />
+            <Button  variant="ghost">
+              <SkipBack   className="h-5 w-5" />
             </Button>
-            <Button size="icon" variant="ghost" onClick={handlePlayPause}>
+            <Button variant="ghost" onClick={handlePlayPause}>
               {!isPlaying ? (
                 <Play className="h-5 w-5" />
               ) : (
                 <Pause className="h-5 w-5" />
               )}
             </Button>
-            <Button size="icon" variant="ghost">
+            <Button  variant="ghost">
               <SkipForward className="h-5 w-5" />
             </Button>
             <Button
-              size="icon"
+             
               variant="ghost"
               onClick={() => {
                 audioRef.current.muted = !audioRef.current.muted;

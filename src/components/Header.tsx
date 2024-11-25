@@ -14,7 +14,7 @@ export default function Header() {
         placeholder="Search podcasts..."
         className="w-full max-w-wm mr-2"
       />
-      <Button size="icon">
+      <Button >
         <Search className="h-5 w-5" />
       </Button>
       <ModeToggle />

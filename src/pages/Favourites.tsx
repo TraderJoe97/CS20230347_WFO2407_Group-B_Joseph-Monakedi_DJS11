@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useOutletContext } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { setCurrentEpisode } from "../store/playerSlice";
+import { removeFavourite } from "@/store/FavouritesSlice";
 
 interface PodcastPreview {
   id: number;
@@ -92,7 +93,17 @@ export default function Favourites() {
                                 >
                                   Play
                                 </Button>
-                                <Button variant={"destructive"}>Remove</Button>
+                                <Button variant={"destructive"}
+                                  onClick={() => dispatch(removeFavourite({
+                                     id: episode.id,
+                                     showId: episode.showId,
+                                     seasonId: episode.seasonId,
+                                     title: "",
+                                     file: "",
+                                     seasonImage: "",
+                                     dateAdded: 0,
+ 
+                                  }))}>Remove</Button>
                               </div>
                             </div>
                           ))}
