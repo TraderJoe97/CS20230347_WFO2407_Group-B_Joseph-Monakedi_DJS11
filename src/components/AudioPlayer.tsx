@@ -207,7 +207,7 @@ export default function AudioPlayer() {
               step={0.1}
               min={0}
               max={1}
-              className="w-1/4"
+              className="max-w-40"
               aria-label="Volume"
             />
           </div>

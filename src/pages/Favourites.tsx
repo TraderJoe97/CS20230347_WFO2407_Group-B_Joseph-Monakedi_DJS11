@@ -20,6 +20,7 @@ interface PodcastPreview {
 export default function Favourites() {
   const podcasts = useOutletContext<PodcastPreview[]>();
   const favourites = useSelector((state: RootState) => state.favourites);
+  const dispatch = useDispatch();
   if (favourites.episodes.length === 0) {
     return (
     <>No favourites</>
@@ -38,7 +39,6 @@ export default function Favourites() {
     if (b === null) return -1;
     return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
   });
-  const dispatch = useDispatch();
 
   return (
     <>
