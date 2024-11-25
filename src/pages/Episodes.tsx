@@ -224,7 +224,7 @@ export default function Episodes() {
                 onClick={() => handleToggleFavEpisode(episode)}
                 aria-label={`${
                   isFavEpisode(episode) ? "Remove from" : "Add to"
-                } favorites`}
+                } favourites`}
                 aria-pressed={isFavEpisode(episode)}
               >
                 <Heart

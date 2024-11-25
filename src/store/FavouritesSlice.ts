@@ -8,7 +8,6 @@ interface FavouriteEpisode {
   file: string;
   seasonImage: string;
   dateAdded: number;
-
 }
 
 interface FavouritesState {

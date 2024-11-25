@@ -77,7 +77,7 @@ function gridPreview(props: {
   const { podcasts, isLoading } = props;
   return (
     <div className="grid grid-cols-1 gap-2 md:gap3 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {isLoading
+      {!isLoading
         ? Array.from({ length: 9 }).map((_, index) => skeletonCard(index))
         : podcasts.map((podcast: PodcastPreview) => (
             <Card
@@ -86,7 +86,6 @@ function gridPreview(props: {
               style={{
                 backgroundImage: `url(${podcast.image})`,
                 backgroundSize: "100% 100% ",
-
                 aspectRatio: "1/1",
               }}
             >
@@ -152,7 +151,6 @@ export default function PodcastPreviewList() {
       <>
         <h1>Podcast Preview List</h1>
         {gridPreview({ podcasts, isLoading })}
-        {JSON.stringify(location)}
       </>
     );
   }
