@@ -1,8 +1,10 @@
 import { RootState } from "@/store/store";
 // import { removeFavourite, ClearAllFavourates } from "@/store/FavouritesSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useOutletContext } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { setCurrentEpisode } from "../store/playerSlice";
 
 interface PodcastPreview {
   id: number;
@@ -30,6 +32,7 @@ export default function Favourites() {
     if (b === null) return -1;
     return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
   });
+  const dispatch = useDispatch();
 
   return (
     <div className="flex flex-col gap-5">
@@ -67,8 +70,31 @@ export default function Favourites() {
                               episode.seasonId === seasonId
                           )
                           .map((episode) => (
-                            <div key={episode.id}>{episode.title}</div>
-                            
+                            <div
+                              key={episode.id}
+                              className="border-b flex flex-col justify-between m-2"
+                            >
+                              <span>{episode.title}</span>
+                              <div className="flex md:justify-end gap-2 p-2">
+                                <Button
+                                  onClick={() => {
+                                    dispatch(
+                                      setCurrentEpisode({
+                                        id: episode.id,
+                                        title: episode.title,
+                                        file: episode.file,
+                                        showId: episode.showId,
+                                        seasonId: episode.seasonId,
+                                        seasonImage: episode.seasonImage,
+                                      })
+                                    );
+                                  }}
+                                >
+                                  Play
+                                </Button>
+                                <Button variant={"destructive"}>Remove</Button>
+                              </div>
+                            </div>
                           ))}
                       </Card>
                     ))}
