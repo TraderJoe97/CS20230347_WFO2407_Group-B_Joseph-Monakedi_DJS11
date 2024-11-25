@@ -7,18 +7,18 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Layout() {
   return (
-    <SidebarProvider>
+    <div className="flex h-dvh w-dvw">
+        <SidebarProvider>
       <AppSidebar />
-      <div className="flex flex-col h-dvh w-dvw">
+        <div className="flex flex-col flex-1 h-full">
         <Header />
-        <div className="flex flex-1 h-full overflow-hidden">
           <ScrollArea className="flex-1 h-full p-5">
             <Outlet />
             <ScrollBar />
           </ScrollArea>
-        </div>
         <AudioPlayer />
-      </div>
+        </div>
     </SidebarProvider>
+      </div>
   );
 }

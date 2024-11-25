@@ -42,7 +42,7 @@ export default function PodcastDetails() {
       .then((data) => setShow(data));
   }, [showId]);
   return (
-    <div>
+    <div className="h-full ">
       {show ? (
         <div className="space-y-5">
           <Card>
@@ -64,7 +64,7 @@ export default function PodcastDetails() {
           <Outlet context={show} />
         </div>
       ) : (
-        <p>Loading...</p>
+        <p className="place-content-center place-self-center h-full">Loading...</p>
       )}
     </div>
   );
