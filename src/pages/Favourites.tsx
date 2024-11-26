@@ -103,6 +103,7 @@ export default function Favourites() {
                                           title: episode.title,
                                           file: episode.file,
                                           showId: episode.showId,
+                                          showTitle: show.title,
                                           seasonId: episode.seasonId,
                                           seasonImage: episode.seasonImage,
                                         })
