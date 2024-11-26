@@ -117,7 +117,7 @@ export default function Episodes() {
       })
     );
     if (!hasProgress(episode)) {
-      
+      dispatch(setCurrentTime(0))
       dispatch(
         addEpisodeProgress({
           episodeId: episode.episode,
