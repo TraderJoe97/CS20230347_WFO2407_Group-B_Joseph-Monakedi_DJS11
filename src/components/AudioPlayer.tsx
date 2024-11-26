@@ -90,6 +90,7 @@ export default function AudioPlayer() {
           episodeProgress: audioRef.current.currentTime,
           episodeDuration: audioRef.current.duration,
           lastPlayed: Date.now().valueOf(),
+          completed: audioRef.current.currentTime === audioRef.current.duration
         })
       );
     }

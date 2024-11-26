@@ -82,6 +82,21 @@ export default function Episodes() {
         prog.seasonId === seasonIdNumber
     );
   };
+
+  const episodeProgress = (episode: Episode) => {
+    const currentEpisodeProgress = progress.episodesProgress.find(
+      (prog: EpisodeProgress | undefined) =>
+        prog?.episodeId === episode.episode &&
+        prog?.showId === show.id &&
+        prog?.seasonId === seasonIdNumber
+    );
+    if (currentEpisodeProgress?.completed) {
+      return "Completed🥳";
+    } else if (currentEpisodeProgress) {
+      return formatTime(currentEpisodeProgress.episodeProgress);
+    }
+    return "";
+  };
   // Update maxItems dynamically on screen resize
   useEffect(() => {
     updateMaxItems(); // Initial setup
@@ -102,6 +117,7 @@ export default function Episodes() {
       })
     );
     if (!hasProgress(episode)) {
+      
       dispatch(
         addEpisodeProgress({
           episodeId: episode.episode,
@@ -110,6 +126,7 @@ export default function Episodes() {
           episodeProgress: 0,
           episodeDuration: 0,
           lastPlayed: Date.now().valueOf(),
+          completed: false,
         })
       );
     } else {
@@ -248,19 +265,11 @@ export default function Episodes() {
               <p className="mb-4">{episode.description}</p>
             </CardContent>
             <CardFooter className="flex flex-col ">
-              { hasProgress(episode) ? <p className="w-full">
-                Progress:{" "}
-                { formatTime(
-                  progress.episodesProgress[
-                    progress.episodesProgress.findIndex(
-                      (progress) =>
-                        progress.episodeId === episode.episode &&
-                        progress.showId === show.id &&
-                        progress.seasonId === seasonIdNumber
-                    )
-                  ].episodeProgress)
-                }
-              </p> : null }
+              {hasProgress(episode) ? (
+                <p className="w-full">
+                  Progress: {episodeProgress(episode)}
+                </p>
+              ) : null}
               <div className="flex w-full justify-between">
                 <Button
                   onClick={() => handlePlay(episode)}

@@ -7,6 +7,7 @@ export interface EpisodeProgress {
   episodeProgress: number;
   episodeDuration: number;
   lastPlayed: number;
+  completed: boolean;
 }
 
 interface progressState {
