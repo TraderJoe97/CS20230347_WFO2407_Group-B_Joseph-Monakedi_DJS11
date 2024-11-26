@@ -2,7 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface EpisodeProgress {
   episodeId: number;
+  episodeTitle: string;
   showId: number;
+  showTitle: string;
   seasonId: number;
   episodeProgress: number;
   episodeDuration: number;

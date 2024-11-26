@@ -93,7 +93,9 @@ export default function Episodes() {
     if (currentEpisodeProgress?.completed) {
       return "Completed🥳";
     } else if (currentEpisodeProgress) {
-      return formatTime(currentEpisodeProgress.episodeProgress);
+      return (
+        formatTime(currentEpisodeProgress.episodeProgress)  +"/"+formatTime(currentEpisodeProgress.episodeDuration)
+      )
     }
     return "";
   };
@@ -111,6 +113,7 @@ export default function Episodes() {
         id: episode.episode,
         title: episode.title,
         file: episode.file,
+        showTitle: show.title,
         showId: show.id,
         seasonId: seasonIdNumber,
         seasonImage: show.seasons[seasonIdNumber - 1].image,
@@ -121,7 +124,9 @@ export default function Episodes() {
       dispatch(
         addEpisodeProgress({
           episodeId: episode.episode,
+          episodeTitle: episode.title,
           showId: show.id,
+          showTitle: show.title,
           seasonId: seasonIdNumber,
           episodeProgress: 0,
           episodeDuration: 0,

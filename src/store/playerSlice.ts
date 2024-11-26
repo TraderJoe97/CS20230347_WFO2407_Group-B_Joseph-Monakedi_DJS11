@@ -11,6 +11,7 @@ interface CurrentEpisode {
   title: string;
   file: string;
   showId: number;
+  showTitle: string;
   seasonId: number;
   seasonImage: string;
 }
@@ -31,6 +32,7 @@ const playerSlice = createSlice({
         title: action.payload.title,
         file: action.payload.file,
         showId: action.payload.showId,
+        showTitle: action.payload.showTitle,
         seasonId: action.payload.seasonId,
         seasonImage: action.payload.seasonImage,
       };

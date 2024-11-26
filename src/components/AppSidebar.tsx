@@ -8,7 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import { HouseIcon, HeartIcon } from "lucide-react";
+import { HouseIcon, HeartIcon, HistoryIcon } from "lucide-react";
 
 export default function AppSidebar() {
   return (
@@ -27,6 +27,12 @@ export default function AppSidebar() {
             <SidebarMenuButton>
               <HeartIcon />
               Favourites
+            </SidebarMenuButton>
+          </NavLink>
+          <NavLink to="history" className="block py-2 hover:underline">
+            <SidebarMenuButton>
+              <HistoryIcon />
+              History
             </SidebarMenuButton>
           </NavLink>
         </SidebarMenu>

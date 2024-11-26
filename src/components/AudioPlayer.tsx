@@ -85,7 +85,9 @@ export default function AudioPlayer() {
       dispatch(
         updateEpisodeProgress({
           episodeId: currentEpisode.id,
+          episodeTitle: currentEpisode.title,
           showId: currentEpisode.showId,
+          showTitle: currentEpisode.showTitle,
           seasonId: currentEpisode.seasonId,
           episodeProgress: audioRef.current.currentTime,
           episodeDuration: audioRef.current.duration,
