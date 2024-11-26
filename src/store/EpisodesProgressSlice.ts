@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface EpisodeProgress {
+export interface EpisodeProgress {
   episodeId: number;
   showId: number;
   seasonId: number;
   episodeProgress: number;
   episodeDuration: number;
+  lastPlayed: number;
 }
 
 interface progressState {
@@ -53,5 +54,6 @@ export const {
   updateEpisodeProgress,
   clearAllEpisodesProgress,
 } = progressSlice.actions;
-export default progressSlice.reducer;
 export const progress = (state: { progress: progressState }) => state.progress;
+export default progressSlice.reducer;
+

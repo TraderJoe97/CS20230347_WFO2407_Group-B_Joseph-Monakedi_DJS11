@@ -9,7 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { setCurrentEpisode, resetPlayer } from "../store/playerSlice";
+import { setCurrentEpisode, setCurrentTime } from "../store/playerSlice";
 import { NavLink } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { RootState } from "@/store/store";
@@ -23,6 +23,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  addEpisodeProgress,
+  EpisodeProgress,
+} from "@/store/EpisodesProgressSlice";
+import { formatTime } from "@/lib/helperFunctions";
 
 interface Episode {
   episode: number;
@@ -58,6 +63,7 @@ export default function Episodes() {
   const show = useOutletContext<Show>();
   const dispatch = useDispatch();
   const favourites = useSelector((state: RootState) => state.favourites);
+  const progress = useSelector((state: RootState) => state.progress);
   const [currentPage, setCurrentPage] = useState(seasonIdNumber);
   const [maxItems, setMaxItems] = useState(5); // items in pagination component
 
@@ -68,6 +74,14 @@ export default function Episodes() {
     else setMaxItems(15); // Large screens
   };
 
+  const hasProgress = (episode: Episode) => {
+    return progress.episodesProgress.some(
+      (prog: EpisodeProgress) =>
+        prog.episodeId === episode.episode &&
+        prog.showId === show.id &&
+        prog.seasonId === seasonIdNumber
+    );
+  };
   // Update maxItems dynamically on screen resize
   useEffect(() => {
     updateMaxItems(); // Initial setup
@@ -77,7 +91,6 @@ export default function Episodes() {
   }, []);
 
   const handlePlay = (episode: Episode) => {
-    dispatch(resetPlayer());
     dispatch(
       setCurrentEpisode({
         id: episode.episode,
@@ -88,8 +101,30 @@ export default function Episodes() {
         seasonImage: show.seasons[seasonIdNumber - 1].image,
       })
     );
+    if (!hasProgress(episode)) {
+      dispatch(
+        addEpisodeProgress({
+          episodeId: episode.episode,
+          showId: show.id,
+          seasonId: seasonIdNumber,
+          episodeProgress: 0,
+          episodeDuration: 0,
+          lastPlayed: Date.now().valueOf(),
+        })
+      );
+    } else {
+      const index = progress.episodesProgress.findIndex(
+        (progress) =>
+          progress.episodeId === episode.episode &&
+          progress.showId === show.id &&
+          progress.seasonId === seasonIdNumber
+      );
+      dispatch(
+        setCurrentTime(progress.episodesProgress[index].episodeProgress)
+      );
+    }
   };
-  
+
   const isFavEpisode = (episode: Episode) => {
     if (seasonId && show && favourites.episodes.length > 0) {
       const isFav = favourites.episodes.some(
@@ -212,27 +247,42 @@ export default function Episodes() {
             <CardContent className="flex-1">
               <p className="mb-4">{episode.description}</p>
             </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button
-                onClick={() => handlePlay(episode)}
-                aria-label={`Play episode ${episode.title}`}
-              >
-                Play Episode
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => handleToggleFavEpisode(episode)}
-                aria-label={`${
-                  isFavEpisode(episode) ? "Remove from" : "Add to"
-                } favourites`}
-                aria-pressed={isFavEpisode(episode)}
-              >
-                <Heart
-                  className={
-                    isFavEpisode(episode) ? "fill-red-500 stroke-red-500" : ""
-                  }
-                />
-              </Button>
+            <CardFooter className="flex flex-col ">
+              { hasProgress(episode) ? <p className="w-full">
+                Progress:{" "}
+                { formatTime(
+                  progress.episodesProgress[
+                    progress.episodesProgress.findIndex(
+                      (progress) =>
+                        progress.episodeId === episode.episode &&
+                        progress.showId === show.id &&
+                        progress.seasonId === seasonIdNumber
+                    )
+                  ].episodeProgress)
+                }
+              </p> : null }
+              <div className="flex w-full justify-between">
+                <Button
+                  onClick={() => handlePlay(episode)}
+                  aria-label={`Play episode ${episode.title}`}
+                >
+                  Play Episode
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleToggleFavEpisode(episode)}
+                  aria-label={`${
+                    isFavEpisode(episode) ? "Remove from" : "Add to"
+                  } favourites`}
+                  aria-pressed={isFavEpisode(episode)}
+                >
+                  <Heart
+                    className={
+                      isFavEpisode(episode) ? "fill-red-500 stroke-red-500" : ""
+                    }
+                  />
+                </Button>
+              </div>
             </CardFooter>
           </Card>
         ))}

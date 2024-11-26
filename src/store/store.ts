@@ -2,11 +2,13 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import playerReducer from "./playerSlice";
 import favouritesReducer from "./FavouritesSlice";
 import { loadStateFromLocalStorage } from "@/app/browser-storage";
+import progressReducer from "./EpisodesProgressSlice";
 
 // Combine all reducers into a root reducer
 const rootReducer = combineReducers({
   player: playerReducer,
   favourites: favouritesReducer,
+  progress: progressReducer
 });
 
 // Define RootState based on the rootReducer

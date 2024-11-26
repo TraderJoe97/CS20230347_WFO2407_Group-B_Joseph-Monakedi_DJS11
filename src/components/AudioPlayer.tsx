@@ -16,7 +16,7 @@ import { RootState } from "@/store/store";
 import { togglePlaying, setCurrentTime } from "@/store/playerSlice";
 import { formatTime } from "@/lib/helperFunctions";
 import { addFavourite, removeFavourite } from "@/store/FavouritesSlice";
-
+import { updateEpisodeProgress } from "@/store/EpisodesProgressSlice";
 interface FavouriteEpisode {
   id: number;
   showId: number;
@@ -53,13 +53,21 @@ export default function AudioPlayer() {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.src = currentEpisode?.file || "";
+      audioRef.current.currentTime = currentTime
+    }
+  }, [currentEpisode]);
+
+
+
+  useEffect(() => {
+    if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.play();
       } else {
         audioRef.current.pause();
       }
     }
-  }, [isPlaying, currentEpisode]);
+  },[currentEpisode,isPlaying])
 
   useEffect(() => {
     if (!isSeeking) {
@@ -72,8 +80,18 @@ export default function AudioPlayer() {
   };
 
   const handleProgressUpdate = () => {
-    if (audioRef.current) {
+    if (audioRef.current && currentEpisode) {
       dispatch(setCurrentTime(audioRef.current.currentTime));
+      dispatch(
+        updateEpisodeProgress({
+          episodeId: currentEpisode.id,
+          showId: currentEpisode.showId,
+          seasonId: currentEpisode.seasonId,
+          episodeProgress: audioRef.current.currentTime,
+          episodeDuration: audioRef.current.duration,
+          lastPlayed: Date.now().valueOf(),
+        })
+      );
     }
   };
 
@@ -179,8 +197,8 @@ export default function AudioPlayer() {
         </div>
         <div className="flex w-full items-center gap-2 p-2">
           <div className="flex items-center w-full gap-2">
-            <Button  variant="ghost">
-              <SkipBack   className="h-5 w-5" />
+            <Button variant="ghost">
+              <SkipBack className="h-5 w-5" />
             </Button>
             <Button variant="ghost" onClick={handlePlayPause}>
               {!isPlaying ? (
@@ -189,11 +207,10 @@ export default function AudioPlayer() {
                 <Pause className="h-5 w-5" />
               )}
             </Button>
-            <Button  variant="ghost">
+            <Button variant="ghost">
               <SkipForward className="h-5 w-5" />
             </Button>
             <Button
-             
               variant="ghost"
               onClick={() => {
                 audioRef.current.muted = !audioRef.current.muted;
