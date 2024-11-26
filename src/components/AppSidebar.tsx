@@ -17,18 +17,18 @@ export default function AppSidebar() {
       <SidebarContent>
         <SidebarGroup />
         <SidebarMenu>
-          <SidebarMenuButton>
-            <HouseIcon  />
-            <NavLink to="/" className="block py-2 hover:underline">
+          <NavLink to="/" className="block py-2 hover:underline">
+            <SidebarMenuButton>
+              <HouseIcon />
               Podcasts
-            </NavLink>
-          </SidebarMenuButton>
-          <SidebarMenuButton>
-            <HeartIcon  />
-            <NavLink to="favourites" className="block py-2 hover:underline">
+            </SidebarMenuButton>
+          </NavLink>
+          <NavLink to="favourites" className="block py-2 hover:underline">
+            <SidebarMenuButton>
+              <HeartIcon />
               Favourites
-            </NavLink>
-          </SidebarMenuButton>
+            </SidebarMenuButton>
+          </NavLink>
         </SidebarMenu>
         <SidebarGroup />
       </SidebarContent>

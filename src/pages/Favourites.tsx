@@ -42,7 +42,7 @@ export default function Favourites() {
 
   return (
     <>
-      <h1 className="text-xl font-extrabold ">favourites</h1>
+      <h1 className="text-xl font-extrabold ">Favourites</h1>
       <div className="flex flex-col gap-5">
         {favShows.filter(Boolean).map((show) => {
           if (show) {
