@@ -12,7 +12,7 @@ import { NavLink } from "react-router-dom";
 export default function History() {
   const progress = useSelector((state: RootState) => state.progress);
   if (!progress.episodesProgress.length) {
-    return <p>No episodes have been watched yet.</p>;
+    return <p>No episodes have been played yet.</p>;
   }
   
   const history = [...progress.episodesProgress].sort((a,b) => b.lastPlayed - a.lastPlayed)

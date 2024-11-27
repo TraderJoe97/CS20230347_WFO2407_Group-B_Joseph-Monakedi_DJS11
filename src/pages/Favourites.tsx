@@ -17,8 +17,10 @@ interface PodcastPreview {
   updated: string;
 }
 
+type SortOption = "a-z" | "z-a" | "newest-oldest" | "oldest-newest";
+
 export default function Favourites() {
-  const podcasts = useOutletContext<PodcastPreview[]>();
+  const [podcasts, sortBy] = useOutletContext<[PodcastPreview[],SortOption]>();
   const favourites = useSelector((state: RootState) => state.favourites);
   const dispatch = useDispatch();
   if (favourites.episodes.length === 0) {
@@ -32,19 +34,30 @@ export default function Favourites() {
   const favShows = favShowIds.map((showId) => {
     const show = podcasts.find((podcast) => podcast.id === showId);
     return show ? show : null;
+  }).filter(Boolean);
+
+
+  const sortedFavShows= [...favShows].sort((a, b) => {
+    switch (sortBy) {
+      case "a-z":
+        return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+      case "z-a":
+        return b.title.toLowerCase().localeCompare(a.title.toLowerCase());
+      case "newest-oldest":
+        return new Date(b.updated).getTime() - new Date(a.updated).getTime();
+      case "oldest-newest":
+        return new Date(a.updated).getTime() - new Date(b.updated).getTime();
+      default:
+        return 0;
+    }
   });
 
-  favShows.sort((a: PodcastPreview | null, b: PodcastPreview | null) => {
-    if (a === null) return 1;
-    if (b === null) return -1;
-    return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
-  });
 
   return (
     <>
       <h1 className="text-xl font-extrabold ">Favourites</h1>
       <div className="flex flex-col gap-5">
-        {favShows.filter(Boolean).map((show) => {
+        {sortedFavShows.filter(Boolean).map((show) => {
           if (show) {
             const seasonsWithFavEpisodes = [
               ...new Set(
