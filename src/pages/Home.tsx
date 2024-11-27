@@ -17,7 +17,6 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-
 interface PodcastPreview {
   id: number;
   title: string;
@@ -158,10 +157,12 @@ export default function PodcastPreviewList() {
   });
 
   if (location.pathname === "/favourites") {
-    return <>
-    <Select onValueChange={(value) => setSortBy(value as SortOption)}>
+    return (
+      <div className="w-full h-full flex flex-col gap-2">
+        <h1 className="">Favourites</h1>
+        <Select onValueChange={(value) => setSortBy(value as SortOption)}>
           <SelectTrigger className="w-40">
-            <SelectValue  placeholder="SortBy"/>
+            <SelectValue placeholder="SortBy" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="a-z">A-Z</SelectItem>
@@ -169,17 +170,17 @@ export default function PodcastPreviewList() {
             <SelectItem value="newest-oldest">Newest to Oldest</SelectItem>
             <SelectItem value="oldest-newest">Oldest to Newest</SelectItem>
           </SelectContent>
-
         </Select>
-    <Outlet context={[podcasts, sortBy]} />;
-    </>
+        <Outlet context={[podcasts, sortBy]} />
+      </div>
+    );
   } else {
     return (
       <div className="w-full h-full flex flex-col gap-2">
         <h1>Podcast Previews</h1>
         <Select onValueChange={(value) => setSortBy(value as SortOption)}>
           <SelectTrigger className="w-40">
-            <SelectValue  placeholder="SortBy"/>
+            <SelectValue placeholder="SortBy" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="a-z">A-Z</SelectItem>
@@ -187,7 +188,6 @@ export default function PodcastPreviewList() {
             <SelectItem value="newest-oldest">Newest to Oldest</SelectItem>
             <SelectItem value="oldest-newest">Oldest to Newest</SelectItem>
           </SelectContent>
-
         </Select>
         {gridPreview({ sortedPodcasts, isLoading })}
       </div>
