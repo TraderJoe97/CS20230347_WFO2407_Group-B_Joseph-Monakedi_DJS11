@@ -7,6 +7,7 @@ import {
   CardTitle,
   CardFooter,
 } from "@/components/ui/card";
+import { NavLink } from "react-router-dom";
 
 export default function History() {
   const progress = useSelector((state: RootState) => state.progress);
@@ -25,11 +26,12 @@ export default function History() {
               <CardTitle>{episodeProgress.episodeTitle}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>
+              <NavLink
+                to={`/show/${episodeProgress.showId}/season/${episodeProgress.seasonId}`}>
                 {episodeProgress.showTitle +
                   " season:" +
                   episodeProgress.seasonId}
-              </p>
+              </NavLink>
             </CardContent>
             <CardFooter>
               LastPlayed:{" "}
