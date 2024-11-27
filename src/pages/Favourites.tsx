@@ -38,18 +38,21 @@ export default function Favourites() {
 
 
   const sortedFavShows= [...favShows].sort((a, b) => {
-    switch (sortBy) {
-      case "a-z":
-        return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
-      case "z-a":
-        return b.title.toLowerCase().localeCompare(a.title.toLowerCase());
-      case "newest-oldest":
-        return new Date(b.updated).getTime() - new Date(a.updated).getTime();
-      case "oldest-newest":
-        return new Date(a.updated).getTime() - new Date(b.updated).getTime();
-      default:
+    if (a && b){
+        switch (sortBy) {
+        case "a-z":
+          return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+        case "z-a":
+          return b.title.toLowerCase().localeCompare(a.title.toLowerCase());
+        case "newest-oldest":
+          return new Date(b.updated).getTime() - new Date(a.updated).getTime();
+        case "oldest-newest":
+          return new Date(a.updated).getTime() - new Date(b.updated).getTime();
+        default:
+          return 0;
+      }} else {
         return 0;
-    }
+      }
   });
 
 

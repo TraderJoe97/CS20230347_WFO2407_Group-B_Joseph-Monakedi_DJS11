@@ -160,7 +160,7 @@ export default function PodcastPreviewList() {
   if (location.pathname === "/favourites") {
     return <>
     <Select onValueChange={(value) => setSortBy(value as SortOption)}>
-          <SelectTrigger className="w-20">
+          <SelectTrigger className="w-40">
             <SelectValue  placeholder="SortBy"/>
           </SelectTrigger>
           <SelectContent>
@@ -178,7 +178,7 @@ export default function PodcastPreviewList() {
       <div className="w-full h-full flex flex-col gap-2">
         <h1>Podcast Previews</h1>
         <Select onValueChange={(value) => setSortBy(value as SortOption)}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-40">
             <SelectValue  placeholder="SortBy"/>
           </SelectTrigger>
           <SelectContent>
