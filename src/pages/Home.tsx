@@ -222,7 +222,11 @@ export default function PodcastPreviewList() {
               <SelectItem value="oldest-newest">Oldest to Newest</SelectItem>
             </SelectContent>
           </Select>
-          {GenreSelector({ genres, selectedGenres, setSelectedGenres })}
+          <GenreSelector 
+            genres={genres} 
+            selectedGenres={selectedGenres} 
+            setSelectedGenres={(genres: Set<string>) => setSelectedGenres(genres)} 
+          />
         </div>
         {gridPreview({ filteredPodcasts: SeacrhFilteredPodcasts, isLoading })}
       </div>
