@@ -72,15 +72,15 @@ function skeletonCard(key: number) {
 }
 
 function gridPreview(props: {
-  sortedPodcasts: PodcastPreview[];
+  filteredPodcasts: PodcastPreview[];
   isLoading: boolean;
 }) {
-  const { sortedPodcasts, isLoading } = props;
+  const { filteredPodcasts, isLoading } = props;
   return (
     <div className="grid grid-cols-1 gap-2 md:gap3 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
       {isLoading
         ? Array.from({ length: 9 }).map((_, index) => skeletonCard(index))
-        : sortedPodcasts.map((podcast: PodcastPreview) => (
+        : filteredPodcasts.map((podcast: PodcastPreview) => (
             <Card
               className="h-full"
               key={podcast.id}
@@ -128,6 +128,7 @@ export default function PodcastPreviewList() {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const [sortBy, setSortBy] = useState<SortOption>("a-z");
+  const [selectedFilters, setSelectedFillters] = useState<number[]>([9])
 
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
@@ -155,6 +156,10 @@ export default function PodcastPreviewList() {
         return 0;
     }
   });
+
+  const filteredPodcasts = sortedPodcasts.filter((podcast) =>
+    selectedFilters.length > 0 ? podcast.genres.some((genreId) => selectedFilters.includes(genreId)) : true)
+  
 
   if (location.pathname === "/favourites") {
     return (
@@ -189,7 +194,7 @@ export default function PodcastPreviewList() {
             <SelectItem value="oldest-newest">Oldest to Newest</SelectItem>
           </SelectContent>
         </Select>
-        {gridPreview({ sortedPodcasts, isLoading })}
+        {gridPreview({ filteredPodcasts, isLoading })}
       </div>
     );
   }
