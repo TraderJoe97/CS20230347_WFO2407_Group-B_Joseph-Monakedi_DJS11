@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useMemo } from "react";
 import {
   Card,
   CardHeader,
@@ -17,6 +17,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import GenreSelector from "@/components/GenreSelector";
+import Fuse from "fuse.js";
 
 interface PodcastPreview {
   id: number;
@@ -164,6 +165,23 @@ export default function PodcastPreviewList() {
       : true
   );
 
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get("search") || "";
+
+  const fuse = useMemo(() => {
+    return new Fuse(filteredPodcasts, {
+      keys: ["title"],
+      threshold: 0.3,
+    });
+  }, [filteredPodcasts]);
+
+  const SeacrhFilteredPodcasts = useMemo(() => {
+    if (searchQuery) {
+      return fuse.search(searchQuery).map((result) => result.item);
+    }
+    return podcasts;
+  }, [searchQuery, podcasts, fuse]);
+
   if (location.pathname === "/favourites") {
     return (
       <div className="w-full h-full flex flex-col gap-2">
@@ -202,7 +220,7 @@ export default function PodcastPreviewList() {
           </Select>
           {GenreSelector({ genres, selectedGenres, setSelectedGenres })}
         </div>
-        {gridPreview({ filteredPodcasts, isLoading })}
+        {gridPreview({ filteredPodcasts: SeacrhFilteredPodcasts, isLoading })}
       </div>
     );
   }
