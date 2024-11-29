@@ -1,4 +1,4 @@
-import { useState, useEffect,useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Card,
   CardHeader,
@@ -80,47 +80,51 @@ function gridPreview(props: {
   const { filteredPodcasts, isLoading } = props;
   return (
     <div className="grid grid-cols-1 gap-2 md:gap3 lg:gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {isLoading
-        ? Array.from({ length: 9 }).map((_, index) => skeletonCard(index))
-        : filteredPodcasts.map((podcast: PodcastPreview) => (
-            <Card
-              className="h-full"
-              key={podcast.id}
-              style={{
-                backgroundImage: `url(${podcast.image})`,
-                backgroundSize: "100% 100% ",
-                aspectRatio: "1/1",
-              }}
+      {isLoading ? (
+        Array.from({ length: 9 }).map((_, index) => skeletonCard(index))
+      ) : filteredPodcasts.length < 1 ? (
+        <div>No Podcasts Found</div>
+      ) : (
+        filteredPodcasts.map((podcast: PodcastPreview) => (
+          <Card
+            className="h-full"
+            key={podcast.id}
+            style={{
+              backgroundImage: `url(${podcast.image})`,
+              backgroundSize: "100% 100% ",
+              aspectRatio: "1/1",
+            }}
+          >
+            <NavLink
+              to={`show/${podcast.id}`}
+              className="h-full w-full flex flex-col justify-between"
             >
-              <NavLink
-                to={`show/${podcast.id}`}
-                className="h-full w-full flex flex-col justify-between"
-              >
-                <CardHeader className="bg-white bg-opacity-80 dark:bg-gray-950  dark:bg-opacity-80">
-                  <CardTitle className="text-left line-clamp-1">
-                    {podcast.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardFooter className=" bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
-                  <div className="text-sm">
-                    <p className="place-self-start line-clamp-1">
-                      {new Date(podcast.updated).toLocaleString("en-ZA", {
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </p>
-                    <p className="place-self-start line-clamp-1">
-                      {podcast.seasons} Season{podcast.seasons === 1 ? "" : "s"}
-                    </p>
-                    <span className="place-self-start line-clamp-1">
-                      {podcast.genres.map((id) => genres[id]).join(", ")}
-                    </span>
-                  </div>
-                </CardFooter>
-              </NavLink>
-            </Card>
-          ))}
+              <CardHeader className="bg-white bg-opacity-80 dark:bg-gray-950  dark:bg-opacity-80">
+                <CardTitle className="text-left line-clamp-1">
+                  {podcast.title}
+                </CardTitle>
+              </CardHeader>
+              <CardFooter className=" bg-white bg-opacity-85 dark:bg-gray-950  dark:bg-opacity-85">
+                <div className="text-sm">
+                  <p className="place-self-start line-clamp-1">
+                    {new Date(podcast.updated).toLocaleString("en-ZA", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <p className="place-self-start line-clamp-1">
+                    {podcast.seasons} Season{podcast.seasons === 1 ? "" : "s"}
+                  </p>
+                  <span className="place-self-start line-clamp-1">
+                    {podcast.genres.map((id) => genres[id]).join(", ")}
+                  </span>
+                </div>
+              </CardFooter>
+            </NavLink>
+          </Card>
+        ))
+      )}
     </div>
   );
 }
@@ -179,8 +183,8 @@ export default function PodcastPreviewList() {
     if (searchQuery) {
       return fuse.search(searchQuery).map((result) => result.item);
     }
-    return podcasts;
-  }, [searchQuery, podcasts, fuse]);
+    return filteredPodcasts;
+  }, [searchQuery, filteredPodcasts, fuse]);
 
   if (location.pathname === "/favourites") {
     return (
