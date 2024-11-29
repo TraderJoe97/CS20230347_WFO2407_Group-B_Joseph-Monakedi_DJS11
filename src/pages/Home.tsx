@@ -43,7 +43,6 @@ const genres: { [key: string]: string } = {
 
 type SortOption = "a-z" | "z-a" | "newest-oldest" | "oldest-newest";
 
-// loading state cards
 function skeletonCard(key: number) {
   return (
     <Card
@@ -74,7 +73,6 @@ function skeletonCard(key: number) {
   );
 }
 
-// component for showing show previews once loaded 
 function gridPreview(props: {
   filteredPodcasts: PodcastPreview[];
   isLoading: boolean;
@@ -138,7 +136,6 @@ export default function PodcastPreviewList() {
   const [sortBy, setSortBy] = useState<SortOption>("a-z");
   const [selectedGenres, setSelectedGenres] = useState<Set<string>>(new Set());
 
-  // Fetch podcast previews 
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
       .then((res) => {
@@ -151,7 +148,6 @@ export default function PodcastPreviewList() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  // sorts podcast using prefered order A-Z default
   const sortedPodcasts = [...podcasts].sort((a, b) => {
     switch (sortBy) {
       case "a-z":
@@ -167,16 +163,15 @@ export default function PodcastPreviewList() {
     }
   });
 
-  // filter podcasts based on selected genres does nothing if no genres are selected
   const filteredPodcasts = sortedPodcasts.filter((podcast) =>
     selectedGenres.size > 0
       ? podcast.genres.some((genreId) => selectedGenres.has(String(genreId)))
       : true
   );
 
-  // fuzy searching using fuseJS library
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get("search") || "";
+
   const fuse = useMemo(() => {
     return new Fuse(filteredPodcasts, {
       keys: ["title"],
@@ -190,8 +185,7 @@ export default function PodcastPreviewList() {
     }
     return filteredPodcasts;
   }, [searchQuery, filteredPodcasts, fuse]);
-  
-  // outlet for favourates page renders conditionally
+
   if (location.pathname === "/favourites") {
     return (
       <div className="w-full h-full flex flex-col gap-2">
@@ -213,7 +207,6 @@ export default function PodcastPreviewList() {
       </div>
     );
   } else {
-    // home page
     return (
       <div className="w-full h-full flex flex-col gap-2">
         <h1>Podcast Previews</h1>

@@ -1,4 +1,3 @@
-// renders checkbox group for selecting genre filters
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "./ui/button";
