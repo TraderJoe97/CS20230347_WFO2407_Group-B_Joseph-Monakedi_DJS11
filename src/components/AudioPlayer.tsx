@@ -50,6 +50,7 @@ export default function AudioPlayer() {
       setIsFavEpisode(isFav);
     }
   }, [currentEpisode, favourites]);
+  
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.src = currentEpisode?.file || "";
