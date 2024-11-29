@@ -170,12 +170,12 @@ export default function AudioPlayer() {
   }, [isPlaying]);
 
   return (
-    <footer className="w-full flex place-items-center gap-2 px-2 border-t ">
-      <img
+    <footer className="w-full flex place-items-center gap-2 px-5 border-t ">
+      {currentEpisode && <img
         className="h-10 w-10 md:h-15 md:w-15 lg:h-20 lg:w-20 object-cover"
         src={currentEpisode?.seasonImage}
         alt="SeasonImage"
-      />
+      />}
       <div className="flex w-full flex-col justify-between items-center">
         <div className="flex justify-between items-center w-full">
           <p>{currentEpisode?.title}</p>
