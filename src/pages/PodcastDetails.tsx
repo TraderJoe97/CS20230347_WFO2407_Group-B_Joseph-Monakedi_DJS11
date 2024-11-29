@@ -38,7 +38,12 @@ export default function PodcastDetails() {
 
   useEffect(() => {
     fetch(`https://podcast-api.netlify.app/id/${showId}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch podcast Details");
+        }
+        return res.json();
+      })
       .then((data) => setShow(data));
   }, [showId]);
   return (
@@ -64,7 +69,9 @@ export default function PodcastDetails() {
           <Outlet context={show} />
         </div>
       ) : (
-        <p className="place-content-center place-self-center h-full">Loading...</p>
+        <p className="place-content-center place-self-center h-full">
+          Loading...
+        </p>
       )}
     </div>
   );
