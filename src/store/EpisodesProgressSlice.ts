@@ -38,16 +38,8 @@ const progressSlice = createSlice({
         state.episodesProgress[index] = action.payload;
       }
     },
-    clearAllEpisodesProgress: (
-      state,
-      action: PayloadAction<EpisodeProgress>
-    ) => {
-      state.episodesProgress = state.episodesProgress.filter(
-        (progress) =>
-          progress.episodeId !== action.payload.episodeId &&
-          progress.showId !== action.payload.showId &&
-          progress.seasonId !== action.payload.seasonId
-      );
+    clearAllEpisodesProgress: (state) => {
+      state.episodesProgress = [];
     },
   },
 });
@@ -59,4 +51,3 @@ export const {
 } = progressSlice.actions;
 export const progress = (state: { progress: progressState }) => state.progress;
 export default progressSlice.reducer;
-
