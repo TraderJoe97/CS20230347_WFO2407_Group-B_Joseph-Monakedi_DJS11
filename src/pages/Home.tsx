@@ -16,6 +16,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import GenreSelector from "@/components/GenreSelector";
 
 interface PodcastPreview {
   id: number;
@@ -128,7 +129,7 @@ export default function PodcastPreviewList() {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const [sortBy, setSortBy] = useState<SortOption>("a-z");
-  const [selectedFilters, setSelectedFillters] = useState<number[]>([9])
+  const [selectedGenres, setSelectedGenres] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch("https://podcast-api.netlify.app/")
@@ -158,13 +159,16 @@ export default function PodcastPreviewList() {
   });
 
   const filteredPodcasts = sortedPodcasts.filter((podcast) =>
-    selectedFilters.length > 0 ? podcast.genres.some((genreId) => selectedFilters.includes(genreId)) : true)
-  
+    selectedGenres.size > 0
+      ? podcast.genres.some((genreId) => selectedGenres.has(String(genreId)))
+      : true
+  );
 
   if (location.pathname === "/favourites") {
     return (
       <div className="w-full h-full flex flex-col gap-2">
         <h1 className="">Favourites</h1>
+
         <Select onValueChange={(value) => setSortBy(value as SortOption)}>
           <SelectTrigger className="w-40">
             <SelectValue placeholder="SortBy" />
@@ -176,6 +180,7 @@ export default function PodcastPreviewList() {
             <SelectItem value="oldest-newest">Oldest to Newest</SelectItem>
           </SelectContent>
         </Select>
+
         <Outlet context={[podcasts, sortBy]} />
       </div>
     );
@@ -183,17 +188,20 @@ export default function PodcastPreviewList() {
     return (
       <div className="w-full h-full flex flex-col gap-2">
         <h1>Podcast Previews</h1>
-        <Select onValueChange={(value) => setSortBy(value as SortOption)}>
-          <SelectTrigger className="w-40">
-            <SelectValue placeholder="SortBy" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="a-z">A-Z</SelectItem>
-            <SelectItem value="z-a">Z-A</SelectItem>
-            <SelectItem value="newest-oldest">Newest to Oldest</SelectItem>
-            <SelectItem value="oldest-newest">Oldest to Newest</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="w-full flex gap-2">
+          <Select onValueChange={(value) => setSortBy(value as SortOption)}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="SortBy" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="a-z">A-Z</SelectItem>
+              <SelectItem value="z-a">Z-A</SelectItem>
+              <SelectItem value="newest-oldest">Newest to Oldest</SelectItem>
+              <SelectItem value="oldest-newest">Oldest to Newest</SelectItem>
+            </SelectContent>
+          </Select>
+          {GenreSelector({ genres, selectedGenres, setSelectedGenres })}
+        </div>
         {gridPreview({ filteredPodcasts, isLoading })}
       </div>
     );
